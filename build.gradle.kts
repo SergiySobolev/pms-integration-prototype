@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+
+
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("com.github.kittinunf.fuel:fuel:$fuel_version")

@@ -5,6 +5,7 @@ out
 pms-frontend/node_modules
 pms-frontend/dist
 node_modules
+lib
 
 .env.local
 .env.*.local

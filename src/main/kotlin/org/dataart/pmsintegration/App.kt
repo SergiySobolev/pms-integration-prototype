@@ -2,6 +2,7 @@ package org.dataart.pmsintegration
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.response.respond
@@ -22,7 +23,6 @@ import org.slf4j.LoggerFactory
 fun main() {
     val config = AppConfig(10000)
     embeddedServer(Netty, port = config.port, module = Application::module).start()
-
 }
 
 fun Application.module() {
@@ -30,35 +30,21 @@ fun Application.module() {
     val pmsClient: PmsClient = AthenaHealthClient()
 
     routing {
-        route("/practiceinfo") {
-            get("/") {
-                val practicesInfo = pmsClient.getAvailablePractices()
-                call.respond(practicesInfo)
+        route("/pmsint") {
+            route("/practiceinfo") {
+
+                get("/") {
+                    val practicesInfo = pmsClient.getAvailablePractices()
+                    call.respond(practicesInfo)
+                }
+                get("/{practiceId}") {
+                    val practiceId = call.parameters["practiceId"]!!
+                    val practiceInfo = pmsClient.getAvailablePractice(practiceId)
+                    call.respond(practiceInfo)
+                }
+
             }
-            get("/{practiceId}") {
-                val practiceId = call.parameters["practiceId"]!!
-                val practiceInfo = pmsClient.getAvailablePractice(practiceId)
-                call.respond(practiceInfo)
-            }
-//            post("/{key}") {
-//                val key = call.parameters["key"]!!
-//                trie.insert(key)
-//                call.respondText(status = HttpStatusCode.Created) {"Key inserted."}
-//            }
-//            delete("/{key}") {
-//                val key = call.parameters["key"]!!
-//                trie.delete(key)
-//                call.respondText(status = HttpStatusCode.OK) {"Key deleted."}
-//            }
         }
-//        route("suggest") {
-//            get("/{key}") {
-//                val key = call.parameters["key"]!!
-//                val suggestion = trie.getAllWordsByPrefix(key)
-//                call.respondText(status = HttpStatusCode.OK) {suggestion.toString()}
-//
-//            }
-//        }
     }
 
     install(ContentNegotiation) {
@@ -70,6 +56,10 @@ fun Application.module() {
                 )
             )
         )
+    }
+
+    install(CORS) {
+        anyHost()
     }
 }
 
