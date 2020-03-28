@@ -2,3 +2,15 @@
 .gradle
 build
 out
+pms-frontend/node_modules
+pms-frontend/dist
+
+.env.local
+.env.*.local
+*log*
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
