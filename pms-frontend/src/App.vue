@@ -1,18 +1,14 @@
 <template>
-  <div id="app">
-    <Practices/>    
+  <div id="app">   
     <router-view/>
   </div>
 </template>
 
 <script>
-import Practices from './components/Practices.vue'
+
 
 export default {
-  name: 'App',
-  components: {
-    Practices
-  }
+  name: 'App'
 }
 </script>
 

@@ -41,6 +41,9 @@
           </tbody>
         </table>  
 
+        <router-link to="/"> Back to Home </router-link>
+
+
     </div> 
 
   </div>

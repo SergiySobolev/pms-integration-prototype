@@ -27,6 +27,8 @@
           </tr>
         </tbody>
       </table>  
+
+      <router-link to="/"> Back To Home </router-link>
     </div> 
 </template>
 
