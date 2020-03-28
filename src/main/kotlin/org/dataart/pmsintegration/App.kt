@@ -5,6 +5,7 @@ import io.ktor.application.install
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.route
@@ -16,9 +17,14 @@ import io.ktor.server.netty.Netty
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.dataart.pmsintegration.pmsclients.PmsClient
+import org.dataart.pmsintegration.dao.AthenaHealthDao
+import org.dataart.pmsintegration.facade.AthenaHealthFacade
+import org.dataart.pmsintegration.facade.PmsFacade
 import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.time.Instant
+import java.util.Objects.nonNull
 
 fun main() {
     val config = AppConfig(10000)
@@ -28,19 +34,28 @@ fun main() {
 fun Application.module() {
 
     val pmsClient: PmsClient = AthenaHealthClient()
+    val pmsDao: AthenaHealthDao = AthenaHealthDao(pmsClient.getAccessToken(), Instant.now())
+    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsDao, pmsClient)
+
+
 
     routing {
         route("/pmsint") {
             route("/practiceinfo") {
 
                 get("/") {
-                    val practicesInfo = pmsClient.getAvailablePractices()
+                    val practicesInfo = pmsFacade.getAvailablePractices()
                     call.respond(practicesInfo)
                 }
                 get("/{practiceId}") {
                     val practiceId = call.parameters["practiceId"]!!
-                    val practiceInfo = pmsClient.getAvailablePractice(practiceId)
-                    call.respond(practiceInfo)
+                    val practiceInfo = pmsFacade.getAvailablePractice(practiceId)
+                    if(nonNull(practiceInfo)) {
+                        call.respond(HttpStatusCode.OK, practiceInfo!!)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound)
+                    }
+
                 }
 
             }

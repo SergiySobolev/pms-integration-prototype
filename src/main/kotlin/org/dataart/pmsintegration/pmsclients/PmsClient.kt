@@ -1,11 +1,12 @@
 package org.dataart.pmsintegration.pmsclients
 
-import org.dataart.pmsintegration.pmsclients.data.PracticeInfo
-import org.dataart.pmsintegration.pmsclients.data.PracticesInfo
+import org.dataart.pmsintegration.data.PracticeInfo
+import org.dataart.pmsintegration.data.PracticesInfo
 
 
 interface PmsClient {
-    fun getAvailablePractices():PracticesInfo
-    fun getAvailablePractice(practiceId: String): PracticeInfo
-    fun getPracticeDepartments()
+    fun getAvailablePractices(accessToken: String):PracticesInfo
+    fun getAvailablePractice(accessToken: String, practiceId: String): PracticeInfo?
+    fun getPracticeDepartments(accessToken: String, practiceId: String)
+    fun getAccessToken(): String
 }

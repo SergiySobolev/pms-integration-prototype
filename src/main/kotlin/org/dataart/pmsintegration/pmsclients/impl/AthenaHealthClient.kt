@@ -6,9 +6,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import mu.KLogging
 import org.dataart.pmsintegration.pmsclients.PmsClient
-import org.dataart.pmsintegration.pmsclients.data.AuthResponse
-import org.dataart.pmsintegration.pmsclients.data.PracticeInfo
-import org.dataart.pmsintegration.pmsclients.data.PracticesInfo
+import org.dataart.pmsintegration.data.AuthResponse
+import org.dataart.pmsintegration.data.PracticeInfo
+import org.dataart.pmsintegration.data.PracticesInfo
 
 class AthenaHealthClient : PmsClient {
 
@@ -18,9 +18,9 @@ class AthenaHealthClient : PmsClient {
         )
     )
 
-    override fun getAvailablePractices(): PracticesInfo {
+    override fun getAvailablePractices(accessToken: String): PracticesInfo {
         val url = "https://api.athenahealth.com/preview1/1/practiceinfo"
-        val authorizationHeader = "Bearer " + getAccessToken()
+        val authorizationHeader = "Bearer $accessToken"
 
         logger.info("Getting all practices info from AthenaHealth")
         val (_, response, _) = Fuel.get(url)
@@ -34,16 +34,17 @@ class AthenaHealthClient : PmsClient {
 
     }
 
-    override fun getAvailablePractice(practiceId: String): PracticeInfo {
+    override fun getAvailablePractice(accessToken: String, practiceId: String): PracticeInfo? {
         logger.info("Getting info about practice $practiceId")
+        val practicesInfo = getAvailablePractices(accessToken)
+        return practicesInfo.practiceinfo.find { it.practiceid == practiceId }
+    }
+
+    override fun getPracticeDepartments(accessToken: String, practiceId: String) {
         TODO("Not yet implemented")
     }
 
-    override fun getPracticeDepartments() {
-        TODO("Not yet implemented")
-    }
-
-    private fun getAccessToken(): String {
+    override fun getAccessToken(): String {
         val url = "https://developer.athenahealth.com/io-docs/getoauth2accesstoken"
         val apiId = "784"
         val authFlow = "client_cred"

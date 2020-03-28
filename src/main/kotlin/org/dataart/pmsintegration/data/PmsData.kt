@@ -1,4 +1,4 @@
-package org.dataart.pmsintegration.pmsclients.data
+package org.dataart.pmsintegration.data
 import kotlinx.serialization.Serializable
 
 @Serializable

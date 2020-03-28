@@ -1,24 +1,33 @@
 <template>
-   <div class="container">
-    <h3>Practices:</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Practice Id</th>
-          <th scope="col">Practice Name</th>
-          <th scope="col">Go Live Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="practice in practices.practiceinfo" v-bind:key="practice.practiceid"> 
-          <th scope="row">{{practice.practiceid}}</th>
-          <td>{{practice.name}}</td>
-          <td>{{practice.golivedate}}</td>
-        </tr>
-      </tbody>
-    </table> 
 
-  </div> 
+   <div class="container">
+    
+      <h3>Practices:</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Practice Id</th>
+            <th scope="col">Practice Name</th>
+            <th scope="col">Go Live Date</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody v-if="practices">
+          <tr
+            v-for="practice in practices.practiceinfo" 
+            v-bind:key="practice.practiceid"> 
+            <th scope="row">{{practice.practiceid}}</th>
+            <td>{{practice.name}}</td>
+            <td>{{practice.golivedate}}</td>
+            <td>
+                <router-link :to="{ name: 'practicedetails', params: {practiceid: practice.practiceid} }">
+                    Practice Details 
+                </router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>  
+    </div> 
 </template>
 
 
