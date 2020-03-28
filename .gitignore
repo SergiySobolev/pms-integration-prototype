@@ -4,6 +4,7 @@ build
 out
 pms-frontend/node_modules
 pms-frontend/dist
+node_modules
 
 .env.local
 .env.*.local
