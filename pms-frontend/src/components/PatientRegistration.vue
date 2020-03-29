@@ -76,7 +76,12 @@
         practiceid : "195900"
       }
     },
-   
+    watch: {
+      patientid(newPatientId) {
+        console.log("Setting new patientid to localStorage")
+        localStorage.patientid = newPatientId;
+      }
+    },   
     methods : {
       registerPatient: function() {
         console.log("Registering patient: " + this.firstname + " " + this.lastname);
@@ -89,9 +94,9 @@
                 departmentid: this.departmentid,
                 practiceid: this.practiceid
           })
-          .then(res => {
-
+          .then(res => {              
               this.patientid = res.data.patientid;
+              localStorage.patientid = this.patientid;
               console.log("Patient successfully registered with id = " + this.patientid)
           }); 
         }        

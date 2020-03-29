@@ -53,8 +53,16 @@
     data() {
       return {
         appointmentsinfo: null,
+        patientid: null
       };
     },    
+    mounted() {
+      console.log("Check for patientid...")
+      if (localStorage.patientid) {
+        this.patientid = localStorage.patientid;
+        console.log("Patientid retrieved from localStorage " + this.patientid);
+      }
+    },
     created: function() {
       axios
         .get('http://localhost:10000/pmsint/slot/' + this.practiceid + "/" + this.providerid)
