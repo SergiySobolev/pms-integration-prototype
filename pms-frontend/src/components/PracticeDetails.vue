@@ -41,7 +41,11 @@
           </tbody>
         </table>  
 
-        <router-link to="/"> Back to Home </router-link>
+        <router-link :to="{ name: 'providers', params: {practiceid: practiceid} }">
+                    View Providers
+        </router-link> <br/>
+
+        <router-link to="/practices"> Back to Practices </router-link>
 
 
     </div> 

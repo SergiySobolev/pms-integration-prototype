@@ -5,10 +5,8 @@ import com.github.kittinunf.fuel.core.Headers
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import mu.KLogging
+import org.dataart.pmsintegration.data.*
 import org.dataart.pmsintegration.pmsclients.PmsClient
-import org.dataart.pmsintegration.data.AuthResponse
-import org.dataart.pmsintegration.data.PracticeInfo
-import org.dataart.pmsintegration.data.PracticesInfo
 
 class AthenaHealthClient : PmsClient {
 
@@ -31,7 +29,6 @@ class AthenaHealthClient : PmsClient {
             PracticesInfo.serializer(),
             String(response.data)
         )
-
     }
 
     override fun getAvailablePractice(accessToken: String, practiceId: String): PracticeInfo? {
@@ -42,6 +39,47 @@ class AthenaHealthClient : PmsClient {
 
     override fun getPracticeDepartments(accessToken: String, practiceId: String) {
         TODO("Not yet implemented")
+    }
+
+    override fun getProvidersInfo(accessToken: String, practiceId: String, limit: Int ): ProvidersInfo {
+        val url = "https://api.athenahealth.com/preview1/$practiceId/providers?limit=$limit"
+        val authorizationHeader = "Bearer $accessToken"
+
+        logger.info("Getting providers for practice #$practiceId")
+        val (_, response, _) = Fuel.get(url)
+            .header(Headers.AUTHORIZATION, authorizationHeader)
+            .response()
+
+        return json.parse(
+            ProvidersInfo.serializer(),
+            String(response.data)
+        )
+    }
+
+    override fun getAppointmentsInfo(
+        accessToken: String,
+        practiceId: String,
+        providerId: String,
+        appointmentTypeId: Int,
+        departmentId: Int
+    ): AppointmentsInfo {
+
+        val url = "https://api.athenahealth.com/preview1/$practiceId/appointments/open" +
+                "?appointmenttypeid=$appointmentTypeId&departmentid=$departmentId" +
+                "&ignoreschedulablepermission=false&providerid=$providerId"
+
+        val authorizationHeader = "Bearer $accessToken"
+
+        logger.info("Getting available slots for provider #$providerId")
+
+        val (_, response, _) = Fuel.get(url)
+            .header(Headers.AUTHORIZATION, authorizationHeader)
+            .response()
+
+        return json.parse(
+            AppointmentsInfo.serializer(),
+            String(response.data)
+        )
     }
 
     override fun getAccessToken(): String {

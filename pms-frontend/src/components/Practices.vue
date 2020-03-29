@@ -10,6 +10,7 @@
             <th scope="col">Practice Name</th>
             <th scope="col">Go Live Date</th>
             <th scope="col">Details</th>
+            <th scope="col">Providers</th>
           </tr>
         </thead>
         <tbody v-if="practices">
@@ -22,6 +23,11 @@
             <td>
                 <router-link :to="{ name: 'practicedetails', params: {practiceid: practice.practiceid} }">
                     Practice Details 
+                </router-link>
+            </td>
+            <td>
+               <router-link :to="{ name: 'providers', params: {practiceid: practice.practiceid} }">
+                    Providers
                 </router-link>
             </td>
           </tr>

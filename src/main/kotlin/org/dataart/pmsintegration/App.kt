@@ -17,8 +17,8 @@ import io.ktor.server.netty.Netty
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.dataart.pmsintegration.pmsclients.PmsClient
-import org.dataart.pmsintegration.dao.AthenaHealthDao
-import org.dataart.pmsintegration.facade.AthenaHealthFacade
+import org.dataart.pmsintegration.cache.AthenaHealthCache
+import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
 import org.dataart.pmsintegration.facade.PmsFacade
 import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
 import org.slf4j.Logger
@@ -34,15 +34,12 @@ fun main() {
 fun Application.module() {
 
     val pmsClient: PmsClient = AthenaHealthClient()
-    val pmsDao: AthenaHealthDao = AthenaHealthDao(pmsClient.getAccessToken(), Instant.now())
+    val pmsDao = AthenaHealthCache(pmsClient.getAccessToken(), Instant.now())
     val pmsFacade: PmsFacade = AthenaHealthFacade(pmsDao, pmsClient)
-
-
 
     routing {
         route("/pmsint") {
             route("/practiceinfo") {
-
                 get("/") {
                     val practicesInfo = pmsFacade.getAvailablePractices()
                     call.respond(practicesInfo)
@@ -55,7 +52,23 @@ fun Application.module() {
                     } else {
                         call.respond(HttpStatusCode.NotFound)
                     }
+                }
 
+            }
+            route("/{practiceId}/providers") {
+                get("/") {
+                    val practiceId = call.parameters["practiceId"]!!
+                    val providersInfo = pmsFacade.getProvidersInfo(practiceId)
+                    call.respond(providersInfo)
+                }
+
+            }
+            route("/slot/{practiceId}/{providerId}") {
+                get("/") {
+                    val practiceId = call.parameters["practiceId"]!!
+                    val providerId = call.parameters["providerId"]!!
+                    val appointmentsInfo = pmsFacade.getAppointmentsInfo(practiceId, providerId)
+                    call.respond(appointmentsInfo)
                 }
 
             }
