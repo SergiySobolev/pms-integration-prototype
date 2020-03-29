@@ -6,6 +6,10 @@ import io.ktor.application.install
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpMethod.Companion.Get
+import io.ktor.http.HttpMethod.Companion.Post
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
@@ -99,6 +103,7 @@ fun Application.module() {
     }
 
     install(CORS) {
+        header(HttpHeaders.AccessControlAllowOrigin)
         anyHost()
     }
 }
