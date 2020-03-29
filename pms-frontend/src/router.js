@@ -4,6 +4,7 @@ import Practices from './components/Practices.vue'
 import PracticeDetails from './components/PracticeDetails.vue'
 import PatientRegistration from './components/PatientRegistration.vue'
 import Providers from './components/Providers.vue'
+import Appointments from './components/Appointments.vue'
 import Home from './views/Home.vue'
 
 Vue.use(Router)
@@ -35,6 +36,12 @@ export default new Router({
           path: '/providers/:practiceid',
           name: 'providers',
           component: Providers,
+          props: true
+        },
+        {
+          path: '/appointments/:practiceid/:providerid',
+          name: 'appointments',
+          component: Appointments,
           props: true
         }
     ]

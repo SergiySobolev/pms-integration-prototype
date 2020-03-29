@@ -12,6 +12,7 @@
               <th scope="col">Last Name</th>
               <th scope="col">Speciality</th>
               <th scope="col">Type</th>
+              <th scope="col">Free Appointments Slots</th>
             </tr>
           </thead>
           <tbody v-if="providers">
@@ -23,12 +24,12 @@
               <td>{{provider.lastname}}</td>
               <td>{{provider.ansispecialtycode}}</td>
               <td>{{provider.providertypeid}}</td>
-             <!-- 
+             
               <td>
-                  <router-link :to="{ name: 'practicedetails', params: {practiceid: practice.practiceid} }">
-                      Practice Details 
+                  <router-link :to="{ name: 'appointments', params: {practiceid: practiceid, providerid: provider.providerid} }">
+                      Free Appointment Slots 
                   </router-link>
-              </td> -->
+              </td>
             </tr>
           </tbody>
       </table>  

@@ -18,7 +18,7 @@ interface PmsFacade {
     fun getAppointmentsInfo(
         practiceId: String,
         providerId: String,
-        appointmentTypeId: Int = 6,
+        appointmentTypeId: Int = 4,
         departmentId: Int = 1
     ): AppointmentsInfo
 }
