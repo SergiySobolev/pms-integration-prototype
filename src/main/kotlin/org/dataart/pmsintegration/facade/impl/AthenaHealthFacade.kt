@@ -2,31 +2,28 @@ package org.dataart.pmsintegration.facade.impl
 
 import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.cache.AthenaHealthCache
-import org.dataart.pmsintegration.data.AppointmentsInfo
-import org.dataart.pmsintegration.data.PracticeInfo
-import org.dataart.pmsintegration.data.PracticesInfo
-import org.dataart.pmsintegration.data.ProvidersInfo
+import org.dataart.pmsintegration.data.*
 import org.dataart.pmsintegration.facade.PmsFacade
 
 class AthenaHealthFacade(
-    val athenaHealthDao: AthenaHealthCache,
+    val athenaHealthCache: AthenaHealthCache,
     val pmsClient: PmsClient
 ) : PmsFacade {
 
     override fun getAvailablePractices(): PracticesInfo {
-        return pmsClient.getAvailablePractices(athenaHealthDao.accessToken)
+        return pmsClient.getAvailablePractices(athenaHealthCache.accessToken)
     }
 
     override fun getAvailablePractice(practiceId: String): PracticeInfo? {
-        return pmsClient.getAvailablePractice(athenaHealthDao.accessToken, practiceId)
+        return pmsClient.getAvailablePractice(athenaHealthCache.accessToken, practiceId)
     }
 
     override fun getPracticeDepartments(practiceId: String) {
-        return pmsClient.getPracticeDepartments(athenaHealthDao.accessToken, practiceId)
+        return pmsClient.getPracticeDepartments(athenaHealthCache.accessToken, practiceId)
     }
 
     override fun getProvidersInfo(practiceId: String, limit: Int): ProvidersInfo {
-        return pmsClient.getProvidersInfo(athenaHealthDao.accessToken, practiceId, limit)
+        return pmsClient.getProvidersInfo(athenaHealthCache.accessToken, practiceId, limit)
     }
 
     override fun getAppointmentsInfo(
@@ -36,12 +33,16 @@ class AthenaHealthFacade(
         departmentId: Int
     ): AppointmentsInfo {
         return pmsClient.getAppointmentsInfo(
-            athenaHealthDao.accessToken,
+            athenaHealthCache.accessToken,
             practiceId,
             providerId,
             appointmentTypeId,
             departmentId
         )
+    }
+
+    override fun registerPatient(patientRegistrationData: PatientRegistrationData): Patient {
+        return pmsClient.registerPatient(athenaHealthCache.accessToken, patientRegistrationData)
     }
 
 

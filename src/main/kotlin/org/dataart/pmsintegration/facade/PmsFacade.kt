@@ -1,9 +1,6 @@
 package org.dataart.pmsintegration.facade
 
-import org.dataart.pmsintegration.data.AppointmentsInfo
-import org.dataart.pmsintegration.data.PracticeInfo
-import org.dataart.pmsintegration.data.PracticesInfo
-import org.dataart.pmsintegration.data.ProvidersInfo
+import org.dataart.pmsintegration.data.*
 
 interface PmsFacade {
 
@@ -21,4 +18,6 @@ interface PmsFacade {
         appointmentTypeId: Int = 4,
         departmentId: Int = 1
     ): AppointmentsInfo
+
+    fun registerPatient(patientRegistrationData: PatientRegistrationData) : Patient
 }

@@ -11,7 +11,7 @@ val logback_version = "1.2.3"
 val kotlin_logging_version = "1.7.9"
 
 plugins {
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.41"
     kotlin("plugin.serialization") version "1.3.70"
     application
 }
@@ -22,8 +22,6 @@ repositories {
 }
 
 dependencies {
-
-
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("com.github.kittinunf.fuel:fuel:$fuel_version")
@@ -35,13 +33,6 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:$kotlin_logging_version")
 
     implementation(kotlin("stdlib-jdk8"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
-    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {

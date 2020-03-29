@@ -1,4 +1,5 @@
 package org.dataart.pmsintegration
+
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -6,8 +7,10 @@ import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.get
+import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.routing.routing
 import io.ktor.serialization.DefaultJsonConfiguration
@@ -18,6 +21,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.cache.AthenaHealthCache
+import org.dataart.pmsintegration.data.PatientRegistrationData
 import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
 import org.dataart.pmsintegration.facade.PmsFacade
 import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
@@ -39,6 +43,14 @@ fun Application.module() {
 
     routing {
         route("/pmsint") {
+            route("/patient") {
+                post {
+                    val patientRegistrationData = call.receive<PatientRegistrationData>()
+                    val patient = pmsFacade.registerPatient(patientRegistrationData)
+                    call.respond(HttpStatusCode.Created, patient)
+                }
+
+            }
             route("/practiceinfo") {
                 get("/") {
                     val practicesInfo = pmsFacade.getAvailablePractices()
@@ -47,7 +59,7 @@ fun Application.module() {
                 get("/{practiceId}") {
                     val practiceId = call.parameters["practiceId"]!!
                     val practiceInfo = pmsFacade.getAvailablePractice(practiceId)
-                    if(nonNull(practiceInfo)) {
+                    if (nonNull(practiceInfo)) {
                         call.respond(HttpStatusCode.OK, practiceInfo!!)
                     } else {
                         call.respond(HttpStatusCode.NotFound)
@@ -95,8 +107,5 @@ fun Application.module() {
 @Serializable
 data class AppConfig(val port: Int)
 
-fun <R : Any> R.logger(): Lazy<Logger> {
-    return lazy { LoggerFactory.getLogger(this.javaClass) }
-}
 
 

@@ -43,7 +43,7 @@ data class Provider(
 )
 
 @Serializable
-data class ProvidersInfo (
+data class ProvidersInfo(
     val providers: Array<Provider>
 )
 
@@ -62,7 +62,49 @@ data class Appointment(
 )
 
 @Serializable
-data class AppointmentsInfo (
+data class AppointmentsInfo(
     val totalcount: Int,
     val appointments: Array<Appointment>
 )
+
+@Serializable
+data class PatientRegistrationData(
+    val firstname: String,
+    val lastname: String,
+    val dob: String,
+    val mobilephone: String,
+    val practiceid: String,
+    val departmentid: String
+)
+
+@Serializable
+data class PatientRegistrationResponse(
+    val patientid: String
+)
+
+@Serializable
+data class Patient(
+    val patientid: String,
+    val firstname: String,
+    val lastname: String,
+    val dob: String,
+    val mobilephone: String,
+    val practiceid: String,
+    val departmentid: String
+) {
+
+    constructor(
+        patientRegistrationData: PatientRegistrationData,
+        patientRegistrationResponse: PatientRegistrationResponse
+    ) :
+        this(
+            patientRegistrationResponse.patientid,
+            patientRegistrationData.firstname,
+            patientRegistrationData.lastname,
+            patientRegistrationData.dob,
+            patientRegistrationData.mobilephone,
+            patientRegistrationData.practiceid,
+            patientRegistrationData.departmentid
+        )
+
+}

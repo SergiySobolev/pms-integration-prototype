@@ -1,9 +1,6 @@
 package org.dataart.pmsintegration.pmsclients
 
-import org.dataart.pmsintegration.data.AppointmentsInfo
-import org.dataart.pmsintegration.data.PracticeInfo
-import org.dataart.pmsintegration.data.PracticesInfo
-import org.dataart.pmsintegration.data.ProvidersInfo
+import org.dataart.pmsintegration.data.*
 
 
 interface PmsClient {
@@ -23,5 +20,9 @@ interface PmsClient {
         departmentId: Int = 1
     ): AppointmentsInfo
 
+    fun registerPatient(accessToken: String, patientRegistrationData: PatientRegistrationData) : Patient
+
     fun getAccessToken(): String
+
+
 }

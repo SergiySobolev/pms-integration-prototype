@@ -2,8 +2,10 @@ package org.dataart.pmsintegration.pmsclients.impl
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Headers
+import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
+import kotlinx.serialization.parseList
 import mu.KLogging
 import org.dataart.pmsintegration.data.*
 import org.dataart.pmsintegration.pmsclients.PmsClient
@@ -80,6 +82,32 @@ class AthenaHealthClient : PmsClient {
             AppointmentsInfo.serializer(),
             String(response.data)
         )
+    }
+
+    @ImplicitReflectionSerializer
+    override fun registerPatient(accessToken:String, patientRegistrationData: PatientRegistrationData): Patient {
+        val url = "https://api.athenahealth.com/preview1/${patientRegistrationData.practiceid}/patients"
+        val authorizationHeader = "Bearer $accessToken"
+
+        logger.info("Registering patient ${patientRegistrationData.firstname} ${patientRegistrationData.lastname}")
+
+        val parameters = listOf (
+            Pair("firstname", patientRegistrationData.firstname),
+            Pair("lastname", patientRegistrationData.lastname),
+            Pair("dob", patientRegistrationData.dob),
+            Pair("departmentid", patientRegistrationData.departmentid),
+            Pair("mobilephone", patientRegistrationData.mobilephone)
+        )
+        val (_, response, _) = Fuel.post(url, parameters)
+            .header(Headers.AUTHORIZATION, authorizationHeader)
+            .response()
+
+        val patientRegistrationResponse: List<PatientRegistrationResponse> = json.parseList(String(response.data))
+
+        logger.info("Patient ${patientRegistrationData.firstname} ${patientRegistrationData.lastname} " +
+                "successfully registered with id = ${patientRegistrationResponse[0].patientid}")
+
+        return Patient(patientRegistrationData, patientRegistrationResponse[0])
     }
 
     override fun getAccessToken(): String {
