@@ -62,10 +62,8 @@
   import axios from 'axios';
   
   export default { 
-
-
     name: 'PatientRegistration',
-     data ()  {
+    data ()  {
       return {
         patientid: null,
         firstname : "John",
@@ -74,6 +72,12 @@
         mobilephone : "541-754-3710",
         departmentid : "1",
         practiceid : "195900"
+      }
+    },
+    mounted: function () {
+      if(localStorage.patientid) {
+        this.patientid = localStorage.patientid
+        console.log("Patient id found = " + this.patientid)
       }
     },
     watch: {
