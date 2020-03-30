@@ -44,10 +44,34 @@
             <input type="text" class="form-control" name="practiceid" v-model="practiceid" readonly/>
           </div>
 
-          <button type="submit" class="btn btn-primary">Register Patient</button>
+          <button type="submit" class="btn btn-primary" v-if="!patientid">Register Patient</button>
         </form>
 
       </div>
+
+      <h3 v-if="patientid"> Patient #{{patientid}} booked appointments  </h3>
+        <table class="table" v-if="patientid">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Appointment Type</th>
+              <th scope="col">Date</th>
+              <th scope="col">Start Time</th>
+              <th scope="col">Duration</th>
+            </tr>
+          </thead>
+          <tbody v-if="appointmentsinfo">
+            <tr
+              v-for="appointment in appointmentsinfo.appointments" 
+              v-bind:key="appointment.appointmentid"> 
+              <th scope="row">{{appointment.appointmentid}}</th>
+              <td>{{appointment.patientappointmenttypename}}</td>
+              <td>{{appointment.date}}</td>
+              <td>{{appointment.starttime}}</td>
+              <td>{{appointment.duration}}</td>       
+            </tr>
+          </tbody>
+      </table>  
 
       <br/>
       <router-link to="/"> Back To Home </router-link>
@@ -71,13 +95,19 @@
         dob : "04/16/1987",
         mobilephone : "541-754-3710",
         departmentid : "1",
-        practiceid : "195900"
+        practiceid : "195900",
+        appointmentsinfo: null
       }
     },
-    beforeCreated: function () {
+    created: function () {
       if(localStorage.patientid) {
         this.patientid = localStorage.patientid
         console.log("Patient id found = " + this.patientid)
+        axios
+          .get("http://localhost:10000/pmsint/patient/" + this.patientid +  "/practice/195900/appointments")
+          .then(res => {
+            this.appointmentsinfo = res.data;
+          })
       }
     },
     watch: {

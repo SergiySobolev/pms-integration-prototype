@@ -24,13 +24,10 @@
               <td>{{appointment.date}}</td>
               <td>{{appointment.starttime}}</td>
               <td>{{appointment.duration}}</td>
-              <td>Book </td>
-             <!-- 
-              <td>
-                  <router-link :to="{ name: 'practicedetails', params: {practiceid: practice.practiceid} }">
-                      Practice Details 
-                  </router-link>
-              </td> -->
+              <td > 
+                <input v-if="patientid" type="button" value="Book" class="btn btn-secondary" 
+                @click="bookAppointment(appointment.appointmentid)"/> 
+              </td>             
             </tr>
           </tbody>
       </table>  
@@ -61,20 +58,29 @@
         appointmentsinfo: null,
         patientid: null
       };
-    },    
-    mounted() {
+    }, 
+    created: function() {
       console.log("Check for patientid...")
       if (localStorage.patientid) {
         this.patientid = localStorage.patientid;
         console.log("Patientid retrieved from localStorage " + this.patientid);
       }
-    },
-    created: function() {
       axios
         .get('http://localhost:10000/pmsint/slot/' + this.practiceid + "/" + this.providerid)
         .then(res => {
           this.appointmentsinfo = res.data;
         })
+    },
+    methods : {
+      bookAppointment: function(appointmentid) {
+        axios
+          .put("http://localhost:10000/pmsint/appointment", {
+                patientid: this.patientid,
+                appointmentid: appointmentid,
+                practiceid: "195900",
+                appointmenttypeid: 4               
+          })      
+      }     
     }
   }
 </script>

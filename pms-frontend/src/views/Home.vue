@@ -2,7 +2,11 @@
 
     <div id="nav">
       <router-link to="/practices">Practices </router-link>  <br/>
-      <router-link to="/patientregistrations"> Register Patient </router-link>  
+      <router-link to="/patientregistrations"> 
+            <label v-if="patientid"> Patient Data </label>
+            <label v-else > Patient Registration </label>
+      </router-link>  
+       
     </div>
      
 </template>
@@ -16,7 +20,7 @@
         patientid: null,       
       }
     },  
-    mounted: function () {
+    created: function () {
       if(localStorage.patientid) {
         this.patientid = localStorage.patientid
         console.log("Patient id found = " + this.patientid)
