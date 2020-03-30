@@ -52,6 +52,28 @@ data class Appointment(
     val date: String,
     val appointmentid: Int,
     val departmentid: Int,
+    val localproviderid: Int? = 0,
+    val appointmenttype: String,
+    val providerid: Int,
+    val starttime: String,
+    val duration: Int,
+    val appointmenttypeid: Int,
+    val patientappointmenttypename: String
+)
+
+@Serializable
+data class AppointmentBookingRequest(
+    val patientid: String,
+    val practiceid: String,
+    val appointmentid: String,
+    val appointmenttypeid: String
+)
+@Serializable
+data class BookedAppointment(
+    val patientid: String,
+    val date: String,
+    val appointmentid: Int,
+    val departmentid: Int,
     val localproviderid: Int,
     val appointmenttype: String,
     val providerid: Int,

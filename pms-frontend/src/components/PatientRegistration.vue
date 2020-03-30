@@ -74,7 +74,7 @@
         practiceid : "195900"
       }
     },
-    mounted: function () {
+    beforeCreated: function () {
       if(localStorage.patientid) {
         this.patientid = localStorage.patientid
         console.log("Patient id found = " + this.patientid)

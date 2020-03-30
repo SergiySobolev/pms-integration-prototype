@@ -20,4 +20,8 @@ interface PmsFacade {
     ): AppointmentsInfo
 
     fun registerPatient(patientRegistrationData: PatientRegistrationData) : Patient
+
+    fun bookAppointment(req: AppointmentBookingRequest)
+
+    fun getPatientAppointmentsInfo(patientid: String, practiceid: String) : AppointmentsInfo
 }

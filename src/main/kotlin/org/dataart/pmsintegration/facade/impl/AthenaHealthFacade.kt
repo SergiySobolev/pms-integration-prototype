@@ -45,5 +45,11 @@ class AthenaHealthFacade(
         return pmsClient.registerPatient(athenaHealthCache.accessToken, patientRegistrationData)
     }
 
+    override fun bookAppointment(req: AppointmentBookingRequest) {
+        pmsClient.bookAppointment(athenaHealthCache.accessToken, req)
+    }
 
+    override fun getPatientAppointmentsInfo(patientid: String, practiceid: String): AppointmentsInfo {
+        return pmsClient.getPatientAppointmentsInfo(athenaHealthCache.accessToken, patientid, practiceid)
+    }
 }

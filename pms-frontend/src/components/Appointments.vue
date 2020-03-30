@@ -24,7 +24,7 @@
               <td>{{appointment.date}}</td>
               <td>{{appointment.starttime}}</td>
               <td>{{appointment.duration}}</td>
-              <td>Book</td>
+              <td>Book </td>
              <!-- 
               <td>
                   <router-link :to="{ name: 'practicedetails', params: {practiceid: practice.practiceid} }">
@@ -37,6 +37,12 @@
 
       <router-link :to="{ name: 'providers', params: {practiceid: practiceid} }">
                     Back to Providers
+      </router-link>
+
+      <br/>
+
+      <router-link to="/">
+                    Back to Home
       </router-link>
 
     </div> 

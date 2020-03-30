@@ -110,6 +110,46 @@ class AthenaHealthClient : PmsClient {
         return Patient(patientRegistrationData, patientRegistrationResponse[0])
     }
 
+    @ImplicitReflectionSerializer
+    override fun bookAppointment(accessToken: String, req: AppointmentBookingRequest) {
+        val url = "https://api.athenahealth.com/preview1/${req.practiceid}/appointments/${req.appointmentid}" +
+                "?patientid=${req.patientid}&appointmenttypeid=${req.appointmenttypeid}"
+        val authorizationHeader = "Bearer $accessToken"
+
+        logger.info("Booking appointment ${req.appointmentid} for patient ${req.patientid}")
+
+        try {
+            val (request, response, result) = Fuel.put(url)
+                .timeout(120000000)
+                .header(Headers.AUTHORIZATION, authorizationHeader)
+                .response()
+        } catch (e: Exception) {
+            logger.warn("ignore any exception because of timeout")
+        }
+    }
+
+    override fun getPatientAppointmentsInfo(
+        accessToken: String,
+        patientid: String,
+        practiceid: String
+    ): AppointmentsInfo {
+        val url = "https://api.athenahealth.com/preview1/$practiceid/patients/$patientid/appointments"
+        val authorizationHeader = "Bearer $accessToken"
+
+        logger.info("Getting appointments for patient $patientid")
+
+        val (_, response, _) = Fuel.get(url)
+            .header(Headers.AUTHORIZATION, authorizationHeader)
+            .response()
+
+        val appointmentsInfo = json.parse(AppointmentsInfo.serializer(), String(response.data))
+
+        logger.info("Found ${appointmentsInfo.totalcount} appointments")
+
+        return appointmentsInfo
+
+    }
+
     override fun getAccessToken(): String {
         val url = "https://developer.athenahealth.com/io-docs/getoauth2accesstoken"
         val apiId = "784"

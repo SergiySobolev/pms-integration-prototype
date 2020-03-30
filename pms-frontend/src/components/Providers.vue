@@ -38,6 +38,12 @@
                     Back to Practice Details
       </router-link>
 
+      <br/>
+
+      <router-link to="/">
+                    Back to Home
+      </router-link>
+
     </div> 
 
   </div>

@@ -26,6 +26,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("com.github.kittinunf.fuel:fuel:$fuel_version")
     implementation("com.github.kittinunf.fuel:fuel-rxjava:$fuel_version")
+    implementation("com.github.kittinunf.fuel:fuel-json:$fuel_version")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version")
     implementation("org.slf4j:slf4j-api:$slf4j_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")

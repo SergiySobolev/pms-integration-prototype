@@ -22,6 +22,10 @@ interface PmsClient {
 
     fun registerPatient(accessToken: String, patientRegistrationData: PatientRegistrationData) : Patient
 
+    fun bookAppointment(accessToken: String, req: AppointmentBookingRequest)
+
+    fun getPatientAppointmentsInfo(accessToken: String, patientid: String, practiceid: String) : AppointmentsInfo
+
     fun getAccessToken(): String
 
 

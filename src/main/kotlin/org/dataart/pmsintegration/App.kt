@@ -11,12 +11,10 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpMethod.Companion.Get
 import io.ktor.http.HttpMethod.Companion.Post
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.HttpStatusCode.Companion.Created
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.route
-import io.ktor.routing.routing
+import io.ktor.routing.*
 import io.ktor.serialization.DefaultJsonConfiguration
 import io.ktor.serialization.serialization
 import io.ktor.server.engine.embeddedServer
@@ -25,6 +23,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.cache.AthenaHealthCache
+import org.dataart.pmsintegration.data.AppointmentBookingRequest
 import org.dataart.pmsintegration.data.PatientRegistrationData
 import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
 import org.dataart.pmsintegration.facade.PmsFacade
@@ -51,7 +50,14 @@ fun Application.module() {
                 post {
                     val patientRegistrationData = call.receive<PatientRegistrationData>()
                     val patient = pmsFacade.registerPatient(patientRegistrationData)
-                    call.respond(HttpStatusCode.Created, patient)
+                    call.respond(Created, patient)
+                }
+
+                get("{patientid}/practice/{practiceid}/appointments") {
+                    val practiceid = call.parameters["practiceid"]!!
+                    val patientid = call.parameters["patientid"]!!
+                    val appointmentsInfo = pmsFacade.getPatientAppointmentsInfo(patientid , practiceid)
+                    call.respond(appointmentsInfo)
                 }
 
             }
@@ -77,7 +83,6 @@ fun Application.module() {
                     val providersInfo = pmsFacade.getProvidersInfo(practiceId)
                     call.respond(providersInfo)
                 }
-
             }
             route("/slot/{practiceId}/{providerId}") {
                 get("/") {
@@ -86,7 +91,13 @@ fun Application.module() {
                     val appointmentsInfo = pmsFacade.getAppointmentsInfo(practiceId, providerId)
                     call.respond(appointmentsInfo)
                 }
-
+            }
+            route("/appointment") {
+                put {
+                    val req = call.receive<AppointmentBookingRequest>()
+                    pmsFacade.bookAppointment(req)
+                    call.respond(Created)
+                }
             }
         }
     }
