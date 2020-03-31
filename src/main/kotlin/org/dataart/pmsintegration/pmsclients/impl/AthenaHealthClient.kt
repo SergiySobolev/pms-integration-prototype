@@ -119,7 +119,7 @@ class AthenaHealthClient : PmsClient {
         logger.info("Booking appointment ${req.appointmentid} for patient ${req.patientid}")
 
         try {
-            val (request, response, result) = Fuel.put(url)
+            Fuel.put(url)
                 .timeout(120000000)
                 .header(Headers.AUTHORIZATION, authorizationHeader)
                 .response()

@@ -1,0 +1,6 @@
+server:
+  port: 10000
+
+pms:
+  athenahealth:
+      url: https://api.athenahealth.com/preview1/

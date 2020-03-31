@@ -8,8 +8,6 @@ import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
-import io.ktor.http.HttpMethod.Companion.Get
-import io.ktor.http.HttpMethod.Companion.Post
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.HttpStatusCode.Companion.Created
 import io.ktor.request.receive
@@ -19,24 +17,24 @@ import io.ktor.serialization.DefaultJsonConfiguration
 import io.ktor.serialization.serialization
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.cache.AthenaHealthCache
 import org.dataart.pmsintegration.data.AppointmentBookingRequest
 import org.dataart.pmsintegration.data.PatientRegistrationData
-import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
 import org.dataart.pmsintegration.facade.PmsFacade
+import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
+import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.time.Instant
 import java.util.Objects.nonNull
 
-fun main() {
-    val config = AppConfig(10000)
-    embeddedServer(Netty, port = config.port, module = Application::module).start()
+fun main(args: Array<String>) {
+    val appConfig = loadConfig(args)
+    embeddedServer(factory = Netty,
+        port = appConfig.server.port,
+        module = Application::module).start()
 }
+
 
 fun Application.module() {
 
@@ -128,9 +126,6 @@ fun Application.module() {
     }
 }
 
-
-@Serializable
-data class AppConfig(val port: Int)
 
 
 
