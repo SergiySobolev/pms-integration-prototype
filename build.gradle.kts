@@ -15,6 +15,7 @@ plugins {
     kotlin("jvm") version "1.3.41"
     kotlin("plugin.serialization") version "1.3.70"
     application
+    id("com.github.johnrengelman.shadow") version "5.0.0"
 }
 
 repositories {
@@ -27,8 +28,11 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version")
 
-    implementation("io.ktor:ktor-server-netty:$ktor_version")
-    implementation("io.ktor:ktor-serialization:$ktor_version")
+    fun ktor(s: String = "", v: String = ktor_version) = "io.ktor:ktor$s:$v"
+
+    compile(ktor())
+    compile(ktor("-serialization"))
+    compile(ktor("-server-netty"))
 
     implementation("com.github.kittinunf.fuel:fuel:$fuel_version")
     implementation("com.github.kittinunf.fuel:fuel-rxjava:$fuel_version")
@@ -48,6 +52,15 @@ tasks.withType<KotlinCompile>().configureEach {
 
 application {
     mainClassName = "org.dataart.pmsintegration.AppKt"
+}
+
+tasks {
+    withType<Jar> {
+        manifest {
+            attributes(mapOf("Main-Class" to application.mainClassName))
+        }
+    }
+
 }
 
 

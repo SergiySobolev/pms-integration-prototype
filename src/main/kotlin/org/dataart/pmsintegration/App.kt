@@ -28,8 +28,8 @@ import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
 import java.time.Instant
 import java.util.Objects.nonNull
 
-fun main(args: Array<String>) {
-    val appConfig = loadConfig(args)
+fun main() {
+    val appConfig = loadConfig()
     embeddedServer(factory = Netty,
         port = appConfig.server.port,
         module = Application::module).start()

@@ -1,14 +1,14 @@
 package org.dataart.pmsintegration
 
 import com.sksamuel.hoplite.ConfigLoader
-import com.sksamuel.hoplite.EnvironmentVariablesPropertySource
+import com.sksamuel.hoplite.SystemPropertiesPropertySource
 
 
-fun loadConfig(args: Array<String>): AppConfig {
-    val env: String = if (args.isNotEmpty()) args[0] else "dev"
+fun loadConfig(): AppConfig {
+    val env: String = System.getProperty("env", "dev")
     println("Active environment = $env")
     return ConfigLoader()
-        .withPropertySource(EnvironmentVariablesPropertySource(useUnderscoresAsSeparator = false))
+        .withPropertySource(SystemPropertiesPropertySource)
         .loadConfigOrThrow("/application-$env.yaml")
 }
 
