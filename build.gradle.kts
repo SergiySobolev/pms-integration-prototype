@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
 val ktor_version = "1.3.0"
 val junit_version = "5.6.0"
@@ -16,6 +17,7 @@ plugins {
     kotlin("plugin.serialization") version "1.3.70"
     application
     id("com.github.johnrengelman.shadow") version "5.0.0"
+    id("com.bmuschko.docker-remote-api") version "6.4.0"
 }
 
 repositories {
@@ -60,8 +62,19 @@ tasks {
             attributes(mapOf("Main-Class" to application.mainClassName))
         }
     }
-
 }
+
+val buildDockerImage by tasks.creating(DockerBuildImage::class) {
+    inputDir.set(file("."))
+    dockerFile.set(file("Dockerfile"))
+    val pmsIntEnv:String = (project.properties["pmsIntEnv"]?:"dev") as String
+    buildArgs.put("PMSINT_ENV", pmsIntEnv)
+    val serverPort:String = (project.properties["serverPort"]?:"10000") as String
+    buildArgs.put("SERVER__PORT", serverPort)
+    images.add("plaguedoctor/pms-integration-backend:latest")
+}
+
+
 
 
    
