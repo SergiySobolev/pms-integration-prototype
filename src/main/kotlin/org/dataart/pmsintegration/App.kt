@@ -25,7 +25,6 @@ import org.dataart.pmsintegration.facade.PmsFacade
 import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
 import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
-import java.time.Instant
 import java.util.Objects.nonNull
 
 fun main() {
@@ -39,8 +38,8 @@ fun main() {
 fun Application.module() {
 
     val pmsClient: PmsClient = AthenaHealthClient()
-    val pmsDao = AthenaHealthCache(pmsClient.getAccessToken(), Instant.now())
-    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsDao, pmsClient)
+    val pmsCache = AthenaHealthCache()
+    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsCache, pmsClient)
 
     routing {
         route("/pmsint") {
