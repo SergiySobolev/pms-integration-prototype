@@ -9,10 +9,11 @@ lib
 
 .env.local
 .env.*.local
-*log*
 .vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+*.png
+*.log
 *.sw?

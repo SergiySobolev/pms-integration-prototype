@@ -171,7 +171,7 @@ class AthenaHealthClient : PmsClient {
             String(response.data)
         )
         val accessToken = authResponse.result.access_token
-        logger.info{ "Access Token:  $accessToken" }
+        logger.debug{ "Access Token:  $accessToken" }
         return accessToken
     }
 
