@@ -71,7 +71,7 @@ tasks {
 
 fun pkey(k:String) = project.properties[k]
 
-val buildDockerImage by tasks.creating(DockerBuildImage::class) {
+val dockerimagebuild by tasks.creating(DockerBuildImage::class) {
     inputDir.set(file("."))
     dockerFile.set(file("Dockerfile"))
     val pmsIntEnv:String = (project.properties["pmsIntEnv"]?:"dev") as String
@@ -81,15 +81,15 @@ val buildDockerImage by tasks.creating(DockerBuildImage::class) {
     images.add("${pkey("dcrname")}:${pkey("dcrtag")}")
 }
 
-val tagDockerImage by tasks.creating(DockerTagImage::class) {
-    dependsOn(buildDockerImage)
-    imageId.set(buildDockerImage.imageId)
+val tagdockerimage by tasks.creating(DockerTagImage::class) {
+    dependsOn(dockerimagebuild)
+    imageId.set(dockerimagebuild.imageId)
     repository.set("${pkey("dcrregistry")}/${pkey("dcrrepo")}/${pkey("dcrname")}")
     tag.set("${pkey("dcrtag")}")
 }
 
-val pushDockerImageToGcr by tasks.creating(DockerPushImage::class) {
-    dependsOn(tagDockerImage)
+val pushdockerimagetogcr by tasks.creating(DockerPushImage::class) {
+    dependsOn(tagdockerimage)
     val imageName = "${pkey("dcrregistry")}/${pkey("dcrrepo")}/${pkey("dcrname")}:${pkey("dcrtag")}"
     images.add(imageName)
 }
