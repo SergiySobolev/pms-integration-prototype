@@ -1,5 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+import com.bmuschko.gradle.docker.tasks.image.DockerTagImage
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktor_version = "1.3.0"
 val junit_version = "5.6.0"
@@ -31,9 +33,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kxs_version")
 
     fun ktor(s: String = "", v: String = ktor_version) = "io.ktor:ktor$s:$v"
-    compile(ktor())
-    compile(ktor("-serialization"))
-    compile(ktor("-server-netty"))
+    implementation(ktor())
+    implementation(ktor("-serialization"))
+    implementation(ktor("-server-netty"))
 
     fun fuel(s: String = "", v: String = fuel_version) = "com.github.kittinunf.fuel:fuel$s:$v"
     implementation(fuel())
@@ -67,6 +69,8 @@ tasks {
     }
 }
 
+fun pkey(k:String) = project.properties[k]
+
 val buildDockerImage by tasks.creating(DockerBuildImage::class) {
     inputDir.set(file("."))
     dockerFile.set(file("Dockerfile"))
@@ -74,7 +78,20 @@ val buildDockerImage by tasks.creating(DockerBuildImage::class) {
     buildArgs.put("PMSINT_ENV", pmsIntEnv)
     val serverPort:String = (project.properties["serverPort"]?:"10000") as String
     buildArgs.put("SERVER__PORT", serverPort)
-    images.add("plaguedoctor/pms-integration-backend:latest")
+    images.add("${pkey("dcrname")}:${pkey("dcrtag")}")
+}
+
+val tagDockerImage by tasks.creating(DockerTagImage::class) {
+    dependsOn(buildDockerImage)
+    imageId.set(buildDockerImage.imageId)
+    repository.set("${pkey("dcrregistry")}/${pkey("dcrrepo")}/${pkey("dcrname")}")
+    tag.set("${pkey("dcrtag")}")
+}
+
+val pushDockerImageToGcr by tasks.creating(DockerPushImage::class) {
+    dependsOn(tagDockerImage)
+    val imageName = "${pkey("dcrregistry")}/${pkey("dcrrepo")}/${pkey("dcrname")}:${pkey("dcrtag")}"
+    images.add(imageName)
 }
 
 
