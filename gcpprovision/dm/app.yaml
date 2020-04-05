@@ -1,0 +1,20 @@
+imports:
+  - path: manifests/backend_manifest.yaml
+    name: backend_manifest
+  - path: templates/container_vm.jinja
+
+resources:
+  - name: my-container-vm
+    type: templates/container_vm.jinja
+    properties:
+      zone: europe-west1-b
+      containerImage: family/cos-stable
+      containerManifest: backend_manifest
+
+  - name: allow-http-fw
+    type: compute.v1.firewall
+    properties:
+      allowed:
+        - IPProtocol: TCP
+          ports: [10000]
+      sourceRanges: [ 0.0.0.0/0 ]

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pms-integration-backend
+spec:
+  containers:
+    - name: pms-integration-backend
+      image: gcr.io/da-pms-integration-prototype/pms-integration-backend:1.0
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 10000
+          hostPort: 10000
