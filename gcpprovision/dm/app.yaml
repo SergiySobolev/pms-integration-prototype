@@ -1,11 +1,11 @@
 imports:
   - path: manifests/backend_manifest.yaml
     name: backend_manifest
-  - path: templates/container_vm.jinja
+  - path: templates/cnt_vm_1.jinja
 
 resources:
-  - name: my-container-vm
-    type: templates/container_vm.jinja
+  - name: backend
+    type: templates/cnt_vm_1.jinja
     properties:
       zone: europe-west1-b
       containerImage: family/cos-stable

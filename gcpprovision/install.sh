@@ -9,4 +9,4 @@ gcloud services enable compute
 gcloud services enable deploymentmanager
 gcloud services enable containerregistry.googleapis.com
 
-gcloud deployment-manager deployments create backend-deployment --config dm/backend.yaml
+gcloud deployment-manager deployments create backend-deployment --config dm/app.yaml
