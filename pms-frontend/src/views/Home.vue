@@ -22,7 +22,7 @@
     },  
     created: function () {
       if(localStorage.patientid) {
-        this.patientid = localStorage.patientid
+        this.patientid = localStorage.patientid;
         console.log("Patient id found = " + this.patientid)
       }
     },

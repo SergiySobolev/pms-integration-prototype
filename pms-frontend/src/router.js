@@ -6,13 +6,21 @@ import PatientRegistration from './components/PatientRegistration.vue'
 import Providers from './components/Providers.vue'
 import Appointments from './components/Appointments.vue'
 import Home from './views/Home.vue'
+import Intro from './views/Intro.vue'
+import Architecture from './views/Architecture.vue'
+import Pms from './views/Pms.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     routes: [
         {
-          path: '/',
+            path: '/',
+            name: 'intro',
+            component: Intro
+        },
+        {
+          path: '/home',
           name: 'home',
           component: Home
         },
@@ -43,6 +51,16 @@ export default new Router({
           name: 'appointments',
           component: Appointments,
           props: true
-        }
+        },
+        {
+            path: '/architecture',
+            name: 'architecture',
+            component: Architecture
+        },
+        {
+            path: '/pms',
+            name: 'pms',
+            component: Pms
+        },
     ]
 })
