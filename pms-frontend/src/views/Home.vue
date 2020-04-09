@@ -23,8 +23,11 @@
             </div>
 
             <div class="col-md-4">
+
                 <a href="https://www.usamco.com/pdf/glossary.pdf" target="_blank">
+
                     <input type="button" value="Glossary" class="btn btn-info">
+
                 </a>
 
             </div>
