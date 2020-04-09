@@ -25,7 +25,8 @@ data class PracticeInfo(
     val practiceid: String,
     val hascommunicator: Boolean,
     val hascollector: Boolean,
-    val golivedate: String
+    val golivedate: String,
+    var isactive: Boolean? = true
 )
 
 @Serializable

@@ -6,12 +6,23 @@ import org.dataart.pmsintegration.data.*
 import org.dataart.pmsintegration.facade.PmsFacade
 
 class AthenaHealthFacade(
-    val athenaHealthCache: AthenaHealthCache,
-    val pmsClient: PmsClient
+    private val athenaHealthCache: AthenaHealthCache,
+    private val pmsClient: PmsClient
 ) : PmsFacade {
 
     override fun getAvailablePractices(): PracticesInfo {
-        return pmsClient.getAvailablePractices(athenaHealthCache.getAccessToken())
+        val availablePractices = pmsClient.getAvailablePractices(athenaHealthCache.getAccessToken())
+        setInactivePractices(availablePractices)
+        return availablePractices
+    }
+
+    private fun setInactivePractices(availablePractices: PracticesInfo) {
+        //its information from athenahealth documentation. Active practice only one.
+        for (practice in availablePractices.practiceinfo) {
+            if (practice.practiceid != "195900") {
+                practice.isactive = false
+            }
+        }
     }
 
     override fun getAvailablePractice(practiceId: String): PracticeInfo? {
