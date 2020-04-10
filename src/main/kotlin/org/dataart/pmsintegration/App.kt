@@ -12,14 +12,13 @@ import io.ktor.serialization.serialization
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import kotlinx.serialization.json.Json
-import org.dataart.pmsintegration.cache.AthenaHealthCache
 import org.dataart.pmsintegration.facade.PmsFacade
 import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
 import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
 
 fun main() {
-    val appConfig = loadConfig()
+    val appConfig = AppConfig.get()
     embeddedServer(
         factory = Netty,
         port = appConfig.server.port,
@@ -31,8 +30,7 @@ fun main() {
 fun Application.module() {
 
     val pmsClient: PmsClient = AthenaHealthClient()
-    val pmsCache = AthenaHealthCache()
-    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsCache, pmsClient)
+    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsClient)
 
     routing(pmsFacade)
 

@@ -2,6 +2,8 @@ package org.dataart.pmsintegration.data
 
 import kotlinx.serialization.Serializable
 
+const val EMPTY = ""
+
 @Serializable
 data class AuthResult(
     val access_token: String,
@@ -34,13 +36,13 @@ data class Provider(
     val firstname: String,
     val acceptingnewpatients: Boolean? = true,
     val schedulingname: String,
-    val providertypeid: String? = "",
+    val providertypeid: String? = EMPTY,
     val billable: Boolean,
     val lastname: String,
     val providerid: Int,
-    val ansispecialtycode: String? = "",
+    val ansispecialtycode: String? = EMPTY,
     val hideinportal: Boolean? = false,
-    val entitytype: String? = ""
+    val entitytype: String? = EMPTY
 )
 
 @Serializable
@@ -131,3 +133,17 @@ data class Patient(
         )
 
 }
+
+@Serializable
+data class Department(
+    val address: String? = EMPTY,
+    val state: String,
+    val patientdepartmentname: String,
+    val creditcardtypes: Array<String>? = emptyArray()
+)
+
+@Serializable
+data class DepartmentsInfo(
+    val totalcount: Int,
+    val departments: Array<Department>
+)

@@ -1,7 +1,9 @@
 <template>
-    <div id="practicedetails">
+    <div id="practice-details">
 
         <PracticeAttributes v-if="practice" :practice="practice"/>
+
+        <Departments v-if="practice" :practice="practice"/>
 
 
         <div class="row">
@@ -36,13 +38,14 @@
 <script>
     import BackToHome from "../BackToHome";
     import PracticeAttributes from "./PracticeAttributes";
+    import Departments from "./Departments";
     import {ServicesFactory} from "../../services/ServicesFactory";
 
     const pmsService = ServicesFactory.get("pms");
 
     export default {
         name: 'PracticeDetails',
-        components: {BackToHome, PracticeAttributes},
+        components: {BackToHome, PracticeAttributes, Departments},
         props: ['practiceid'],
         data() {
             return {

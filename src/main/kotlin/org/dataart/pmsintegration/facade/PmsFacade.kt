@@ -8,7 +8,7 @@ interface PmsFacade {
 
     fun getAvailablePractice(practiceId: String): PracticeInfo?
 
-    fun getPracticeDepartments(practiceId: String)
+    fun getPracticeDepartments(practiceId: String): DepartmentsInfo
 
     fun getProvidersInfo(practiceId: String, limit:Int = 50): ProvidersInfo
 

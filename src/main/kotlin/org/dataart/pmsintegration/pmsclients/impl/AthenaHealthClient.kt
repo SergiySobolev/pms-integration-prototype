@@ -12,6 +12,8 @@ import org.dataart.pmsintegration.pmsclients.PmsClient
 
 class AthenaHealthClient : PmsClient {
 
+    private val athenaKtorHealthClient = AthenaKtorHealthClient()
+
     private val json = Json(
         JsonConfiguration.Stable.copy(
             strictMode = false
@@ -39,8 +41,8 @@ class AthenaHealthClient : PmsClient {
         return practicesInfo.practiceinfo.find { it.practiceid == practiceId }
     }
 
-    override fun getPracticeDepartments(accessToken: String, practiceId: String) {
-        TODO("Not yet implemented")
+    override fun getPracticeDepartments(practiceId: String) : DepartmentsInfo{
+        return athenaKtorHealthClient.getPracticeDepartments(practiceId)
     }
 
     override fun getProvidersInfo(accessToken: String, practiceId: String, limit: Int ): ProvidersInfo {

@@ -14,6 +14,7 @@ val logback_version = "1.2.3"
 val kotlin_logging_version = "1.7.9"
 val hoplite_version = "1.2.0"
 
+
 plugins {
     kotlin("jvm") version "1.3.41"
     kotlin("plugin.serialization") version "1.3.70"
@@ -34,6 +35,8 @@ dependencies {
 
     fun ktor(s: String = "", v: String = ktor_version) = "io.ktor:ktor$s:$v"
     implementation(ktor())
+    implementation(ktor("-client-apache"))
+    implementation(ktor("-client-serialization-jvm"))
     implementation(ktor("-serialization"))
     implementation(ktor("-server-netty"))
 

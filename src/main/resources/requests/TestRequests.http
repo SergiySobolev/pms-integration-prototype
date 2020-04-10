@@ -1,0 +1,5 @@
+GET http://localhost:10000/pmsint/practice/195900/departments
+Accept: application/json
+
+###
+

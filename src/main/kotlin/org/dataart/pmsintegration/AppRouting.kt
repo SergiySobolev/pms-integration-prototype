@@ -30,6 +30,12 @@ fun Application.routing(pmsFacade: PmsFacade) {
                 }
 
             }
+            route("/practice/{practiceId}") {
+                get("/departments") {
+                    val practiceId = call.parameters["practiceId"]!!
+                    call.respond(pmsFacade.getPracticeDepartments(practiceId))
+                }
+            }
             route("/practiceinfo") {
                 get("/") {
                     val practicesInfo = pmsFacade.getAvailablePractices()

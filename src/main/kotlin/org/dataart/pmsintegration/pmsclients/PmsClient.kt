@@ -8,7 +8,7 @@ interface PmsClient {
 
     fun getAvailablePractice(accessToken: String, practiceId: String): PracticeInfo?
 
-    fun getPracticeDepartments(accessToken: String, practiceId: String)
+    fun getPracticeDepartments(practiceId: String): DepartmentsInfo
 
     fun getProvidersInfo(accessToken: String, practiceId: String, limit: Int = 50): ProvidersInfo
 
