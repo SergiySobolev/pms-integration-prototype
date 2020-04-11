@@ -50,6 +50,7 @@
                     <b-table
                             id="departments-table"
                             :items="departmentsInfo.departments"
+                            :fields="fields"
                             :per-page="perPage"
                             :current-page="currentPage"
                             :head-variant="headVariant"
@@ -85,7 +86,15 @@
                 perPage: 5,
                 currentPage: 1,
                 departmentsInfo: Object,
-                headVariant: "dark"
+                headVariant: "dark",
+                fields: [
+                    {key: 'departmentid', label: 'ID'},
+                    {key: 'name', label: 'Name'},
+                    {key: 'zip', label: 'ZIP'},
+                    {key: 'address', label: 'Address'},
+                    {key: 'phone', label: 'Phone'},
+                    {key: 'state', label: 'State'},
+                ]
             }
         },
         created: function () {

@@ -2,7 +2,7 @@
 
     <div id="nav">
 
-        <h2> Demonstration of integration with <b-badge variant="info">Practice Management Systems</b-badge> API </h2>
+        <h2> Demonstration of integration with <b-badge variant="secondary">Practice Management Systems</b-badge> API </h2>
 
             <br/><br/>
 
