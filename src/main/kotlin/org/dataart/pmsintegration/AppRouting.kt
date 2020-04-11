@@ -14,22 +14,23 @@ import java.util.*
 
 fun Application.routing(pmsFacade: PmsFacade) {
     routing {
+
         route("/pmsint") {
+
             route("/patient") {
                 post {
                     val patientRegistrationData = call.receive<PatientRegistrationData>()
                     val patient = pmsFacade.registerPatient(patientRegistrationData)
                     call.respond(HttpStatusCode.Created, patient)
                 }
-
                 get("{patientid}/practice/{practiceid}/appointments") {
                     val practiceid = call.parameters["practiceid"]!!
                     val patientid = call.parameters["patientid"]!!
                     val appointmentsInfo = pmsFacade.getPatientAppointmentsInfo(patientid, practiceid)
                     call.respond(appointmentsInfo)
                 }
-
             }
+
             route("/practice") {
                 get("/") {
                     val practicesInfo = pmsFacade.getAvailablePractices()
@@ -48,14 +49,13 @@ fun Application.routing(pmsFacade: PmsFacade) {
                     val practiceId = call.parameters["practiceId"]!!
                     call.respond(pmsFacade.getPracticeDepartments(practiceId))
                 }
-            }
-            route("/{practiceId}/providers") {
-                get("/") {
+                get("/{practiceId}/providers") {
                     val practiceId = call.parameters["practiceId"]!!
                     val providersInfo = pmsFacade.getProvidersInfo(practiceId)
                     call.respond(providersInfo)
                 }
             }
+
             route("/slot/{practiceId}/{providerId}") {
                 get("/") {
                     val practiceId = call.parameters["practiceId"]!!

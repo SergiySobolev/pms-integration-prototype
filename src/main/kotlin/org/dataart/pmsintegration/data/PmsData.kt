@@ -33,13 +33,14 @@ data class PracticeInfo(
 
 @Serializable
 data class Provider(
-    val firstname: String,
+    val lastname: String? = EMPTY,
+    val firstname: String? = EMPTY,
+    val ansinamecode: String? = EMPTY,
+    val providerid: Int,
     val acceptingnewpatients: Boolean? = true,
-    val schedulingname: String,
+    val schedulingname: String? = EMPTY,
     val providertypeid: String? = EMPTY,
     val billable: Boolean,
-    val lastname: String,
-    val providerid: Int,
     val ansispecialtycode: String? = EMPTY,
     val hideinportal: Boolean? = false,
     val entitytype: String? = EMPTY
@@ -71,6 +72,7 @@ data class AppointmentBookingRequest(
     val appointmentid: String,
     val appointmenttypeid: String
 )
+
 @Serializable
 data class BookedAppointment(
     val patientid: String,

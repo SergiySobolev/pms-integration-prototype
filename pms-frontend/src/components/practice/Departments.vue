@@ -52,7 +52,11 @@
                             :items="departmentsInfo.departments"
                             :per-page="perPage"
                             :current-page="currentPage"
-                            small></b-table>
+                            :head-variant="headVariant"
+                            :striped="true"
+                            :bordered="true"
+                            :hover="true"
+                            ></b-table>
                 </div>
 
                 <div class="col-md-1"></div>
@@ -78,7 +82,8 @@
             return {
                 perPage: 5,
                 currentPage: 1,
-                departmentsInfo: Object
+                departmentsInfo: Object,
+                headVariant: "dark"
             }
         },
         created: function () {

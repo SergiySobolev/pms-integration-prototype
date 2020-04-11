@@ -15,6 +15,7 @@ import org.apache.http.HttpHeaders.AUTHORIZATION
 import org.dataart.pmsintegration.AppConfig
 import org.dataart.pmsintegration.cache.AthenaHealthCache
 import org.dataart.pmsintegration.data.DepartmentsInfo
+import org.dataart.pmsintegration.data.ProvidersInfo
 
 //TODO implement PmsFacade interface in fully manner and replace AthenaHealthClient
 class AthenaKtorHealthClient {
@@ -60,6 +61,21 @@ class AthenaKtorHealthClient {
         }
         logger.debug ("KTOR client: Departments info for practice #$practiceId retrieved")
         return departmentsInfo
+    }
+
+    fun getProvidersInfo(practiceId: String, limit: Int): ProvidersInfo {
+        logger.info ("KTOR client: retrieving providers for practice #$practiceId")
+        val path = if (limit > 0) "/$practiceId/providers?limit=$limit" else "/$practiceId/providers"
+        val providersInfo = runBlocking {
+            client.get<ProvidersInfo> {
+                url {
+                    encodedPath = path
+                }
+                header(AUTHORIZATION, "Bearer ${AthenaHealthCache.getAccessToken()}")
+            }
+        }
+        logger.debug ("KTOR client: Providers info for practice #$practiceId retrieved")
+        return providersInfo
     }
 
     companion object : KLogging()

@@ -41,10 +41,15 @@
                 <div class="col-md-9">
                     <b-table
                             id="providers-table"
-                            :items="departmentsInfo.departments"
+                            :items="providersInfo.providers"
+                            :fields="fields"
                             :per-page="perPage"
                             :current-page="currentPage"
-                            small></b-table>
+                            :head-variant="headVariant"
+                            :striped="true"
+                            :bordered="true"
+                            :hover="true"
+                            ></b-table>
                 </div>
                 <div class="col-md-1"></div>
             </div>
@@ -67,9 +72,22 @@
         },
         data() {
             return {
+                dataLoaded: false,
                 perPage: 5,
                 currentPage: 1,
-                departmentsInfo: Object
+                providersInfo: {
+                    Type: Object,
+                    default: null
+                },
+                headVariant: "dark",
+                fields : [
+                    { key: 'firstname', label: 'First Name' },
+                    { key: 'lastname', label: 'Last Name' },
+                    { key: 'ansinamecode', label: 'Ansi Name Code' },
+                    { key: 'providertypeid', label: 'Type' },
+                    { key: 'providerid', label: 'ID' },
+                    { key: 'schedulingname', label: 'Scheduling Name' },
+                ]
             }
         },
         created: function () {
@@ -77,13 +95,16 @@
         },
         computed: {
             rows() {
-                return 22;
+                return this.dataLoaded
+                    ?  this.providersInfo.providers.length
+                    : 0
             }
         },
         methods: {
             async fetch() {
-                pmsService.getDepartments(this.practice.practiceid).then(res => {
-                    this.departmentsInfo = res.data;
+                pmsService.getProviders(this.practice.practiceid).then(res => {
+                    this.providersInfo = res.data;
+                    this.dataLoaded = true
                 });
             }
         }

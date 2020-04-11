@@ -46,18 +46,7 @@ class AthenaHealthClient : PmsClient {
     }
 
     override fun getProvidersInfo(accessToken: String, practiceId: String, limit: Int ): ProvidersInfo {
-        val url = "https://api.athenahealth.com/preview1/$practiceId/providers?limit=$limit"
-        val authorizationHeader = "Bearer $accessToken"
-
-        logger.info("Getting providers for practice #$practiceId")
-        val (_, response, _) = Fuel.get(url)
-            .header(Headers.AUTHORIZATION, authorizationHeader)
-            .response()
-
-        return json.parse(
-            ProvidersInfo.serializer(),
-            String(response.data)
-        )
+       return athenaKtorHealthClient.getProvidersInfo(practiceId, limit)
     }
 
     override fun getAppointmentsInfo(
