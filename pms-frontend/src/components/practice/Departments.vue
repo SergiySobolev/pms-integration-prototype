@@ -56,7 +56,9 @@
                             :striped="true"
                             :bordered="true"
                             :hover="true"
-                            ></b-table>
+                            >
+
+                    </b-table>
                 </div>
 
                 <div class="col-md-1"></div>

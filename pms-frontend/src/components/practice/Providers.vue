@@ -14,7 +14,7 @@
                         data-target="#providers-list"
                         aria-expanded="false"
                         aria-controls="providers-list">
-                    Show <b><u>{{practice.name}}</u></b>   providers
+                    Show <b><u>{{practice.name}}</u></b> providers
                 </button>
 
             </div>
@@ -38,6 +38,7 @@
 
             <div class="row">
                 <div class="col-md-2"></div>
+
                 <div class="col-md-9">
                     <b-table
                             id="providers-table"
@@ -49,7 +50,25 @@
                             :striped="true"
                             :bordered="true"
                             :hover="true"
-                            ></b-table>
+                    >
+
+                        <template v-slot:cell(actions)="data">
+
+                            <router-link
+                                    :to="{ name: 'providerdetails',
+                                           params: {
+                                                    practiceid: practice.practiceid,
+                                                    providerid: data.item.providerid
+                                    }}">
+
+                                <input type="button" value="Book Appointment" class="btn btn-info"/>
+
+                            </router-link>
+
+                        </template>
+
+                    </b-table>
+
                 </div>
                 <div class="col-md-1"></div>
             </div>
@@ -80,13 +99,14 @@
                     default: null
                 },
                 headVariant: "dark",
-                fields : [
-                    { key: 'firstname', label: 'First Name' },
-                    { key: 'lastname', label: 'Last Name' },
-                    { key: 'ansinamecode', label: 'Ansi Name Code' },
-                    { key: 'providertypeid', label: 'Type' },
-                    { key: 'providerid', label: 'ID' },
-                    { key: 'schedulingname', label: 'Scheduling Name' },
+                fields: [
+                    {key: 'firstname', label: 'First Name'},
+                    {key: 'lastname', label: 'Last Name'},
+                    {key: 'ansinamecode', label: 'Ansi Name Code'},
+                    {key: 'providertypeid', label: 'Type'},
+                    {key: 'providerid', label: 'ID'},
+                    {key: 'schedulingname', label: 'Scheduling Name'},
+                    {key: 'actions', label: 'Actions'}
                 ]
             }
         },
@@ -96,7 +116,7 @@
         computed: {
             rows() {
                 return this.dataLoaded
-                    ?  this.providersInfo.providers.length
+                    ? this.providersInfo.providers.length
                     : 0
             }
         },
