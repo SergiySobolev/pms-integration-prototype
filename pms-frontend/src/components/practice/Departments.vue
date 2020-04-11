@@ -4,7 +4,7 @@
 
         <div class="row">
 
-            <div class="col-md-3">
+            <div class="col-md-7">
 
                 <button class="btn btn-light"
                         type="button"
@@ -19,24 +19,33 @@
 
         </div>
 
+
         <div class="collapse" id="departments-list">
+            <br/>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <b-pagination
+                            v-model="currentPage"
+                            :total-rows="rows"
+                            :per-page="perPage"
+                            aria-controls="departments-table"></b-pagination>
+                </div>
 
-            <label v-if="departmentsInfo"> {{departmentsInfo.totalcount}} departments found </label>
+            </div>
 
-            <b-pagination
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                    aria-controls="departments-table"></b-pagination>
-
-            <p class="mt-3">Current Page: {{ currentPage }}</p>
-
-            <b-table
-                    id="departments-table"
-                    :items="departmentsInfo.departments"
-                    :per-page="perPage"
-                    :current-page="currentPage"
-                    small></b-table>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-9">
+                    <b-table
+                            id="departments-table"
+                            :items="departmentsInfo.departments"
+                            :per-page="perPage"
+                            :current-page="currentPage"
+                            small></b-table>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
 
         </div>
 
@@ -66,11 +75,7 @@
         },
         computed: {
             rows() {
-                if(this.departmentsInfo) {
-                    return this.departmentsInfo.departments.length;
-                } else {
-                    return 0;
-                }
+                return 22;
             }
         },
         methods: {
