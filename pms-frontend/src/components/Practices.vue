@@ -48,7 +48,6 @@
         components: {BackToHome},
         data() {
             return {
-                isLoading: false,
                 practices: null
             };
         },
@@ -57,11 +56,9 @@
         },
         methods: {
             async fetch() {
-                this.isLoading = true;
                 pmsService.getPractices().then(res => {
                     this.practices = res.data;
                 });
-                this.isLoading = false;
             }
         }
     }

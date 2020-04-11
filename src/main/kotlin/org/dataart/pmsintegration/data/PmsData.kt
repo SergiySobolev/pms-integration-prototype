@@ -136,7 +136,11 @@ data class Patient(
 
 @Serializable
 data class Department(
+    val departmentid: String,
+    val name: String,
+    val zip: String,
     val address: String? = EMPTY,
+    val phone: String? = EMPTY,
     val state: String,
     val patientdepartmentname: String,
     val creditcardtypes: Array<String>? = emptyArray()
