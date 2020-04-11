@@ -8,7 +8,7 @@
 
         <div class="row">
 
-            <div class="col-md-4">
+            <div class="col-md-9">
 
                 <router-link :to="{ name: 'providers', params: {practiceid: practiceid} }">
                     <input type="button" value="View providers" class="btn btn-primary"/>
@@ -16,7 +16,7 @@
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-1">
 
                 <router-link to="/practices">
                     <input type="button" value="Back to Practices" class="btn btn-info"/>
@@ -24,7 +24,7 @@
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <BackToHome/>
             </div>
 

@@ -3,7 +3,7 @@
 
         <div class="container">
 
-            <h3> Provider #{{providerid}} Free Appointment Slots </h3>
+            <h3> Provider <b-badge variant="info">{{providerid}}</b-badge> Free Appointment Slots </h3>
             <table class="table">
                 <thead>
                 <tr>

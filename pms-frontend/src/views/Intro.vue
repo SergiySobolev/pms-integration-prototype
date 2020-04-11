@@ -2,19 +2,41 @@
 
     <div id="nav">
 
-        <h2> Demonstration of integration with Practice Management Systems API </h2>
+        <h2> Demonstration of integration with <b-badge variant="info">Practice Management Systems</b-badge> API </h2>
 
-        <pre class="tab">
+            <br/><br/>
 
-            <router-link to="/home"><input type="button" value="Start Demo" class="btn btn-primary"/></router-link>
+            <div class="row">
 
-            <router-link to="/architecture"><input type="button" value="Demo's architecture" class="btn btn-info"/></router-link>
+                <div class="col-md-3"></div>
 
-            <router-link to="/pms"><input type="button" value="About integrated systems" class="btn btn-info"/></router-link>
+                <div class="col-md-2">
 
-        </pre>
+                    <router-link to="/home"><input type="button" value="Start Demo" class="btn btn-primary"/></router-link>
 
-    </div>
+                </div>
+
+                <div class="col-md-2">
+
+                    <router-link to="/architecture"><input type="button" value="Demo's architecture" class="btn btn-info"/></router-link>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <a href="https://www.usamco.com/pdf/glossary.pdf" target="_blank">
+
+                        <router-link to="/pms"><input type="button" value="About integrated systems" class="btn btn-info"/></router-link>
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-3"></div>
+
+            </div>
+
+        </div>
 
 </template>
 

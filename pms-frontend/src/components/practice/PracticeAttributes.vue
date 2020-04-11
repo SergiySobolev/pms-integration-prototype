@@ -4,7 +4,7 @@
 
         <div class="container">
 
-            <h3 v-if="practice"> Practice <b><u>{{practice.name}}</u></b> details </h3>
+            <h3 v-if="practice"> Practice <b-badge variant="info">{{practice.name}}</b-badge> details </h3>
 
             <table class="table table-sm table-bordered">
 

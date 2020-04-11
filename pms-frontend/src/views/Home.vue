@@ -4,13 +4,15 @@
 
         <div class="row">
 
-            <div class="col-md-4">
+            <div class="col-md-3"></div>
+
+            <div class="col-md-2">
 
                 <router-link to="/practices"><input type="button" value="Practices" class="btn btn-primary"/></router-link>
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2">
 
                 <router-link to="/patientregistrations">
 
@@ -22,7 +24,7 @@
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2">
 
                 <a href="https://www.usamco.com/pdf/glossary.pdf" target="_blank">
 
@@ -31,6 +33,8 @@
                 </a>
 
             </div>
+
+            <div class="col-md-3"></div>
 
         </div>
 
