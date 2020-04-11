@@ -100,8 +100,8 @@
                 },
                 headVariant: "dark",
                 fields: [
-                    {key: 'firstname', label: 'First Name'},
-                    {key: 'lastname', label: 'Last Name'},
+                    {key: 'firstname', label: 'First Name',  sortable: true},
+                    {key: 'lastname', label: 'Last Name',  sortable: true},
                     {key: 'ansinamecode', label: 'Ansi Name Code'},
                     {key: 'providertypeid', label: 'Type'},
                     {key: 'providerid', label: 'ID'},
