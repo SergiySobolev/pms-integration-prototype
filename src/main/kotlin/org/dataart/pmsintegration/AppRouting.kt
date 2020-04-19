@@ -54,6 +54,16 @@ fun Application.routing(pmsFacade: PmsFacade) {
                     val providersInfo = pmsFacade.getProvidersInfo(practiceId)
                     call.respond(providersInfo)
                 }
+                get("/{practiceId}/providers/{providerId}") {
+                    val practiceId = call.parameters["practiceId"]!!
+                    val providerId = call.parameters["providerId"]!!
+                    val provider = pmsFacade.getProviderInfo(practiceId, providerId)
+                    if (Objects.nonNull(provider)) {
+                        call.respond(HttpStatusCode.OK, provider!!)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound)
+                    }
+                }
             }
 
             route("/slot/{practiceId}/{providerId}") {

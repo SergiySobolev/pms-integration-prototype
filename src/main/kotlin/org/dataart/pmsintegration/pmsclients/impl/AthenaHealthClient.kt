@@ -141,6 +141,11 @@ class AthenaHealthClient : PmsClient {
 
     }
 
+    @ImplicitReflectionSerializer
+    override fun getProviderInfo(practiceId: String, providerId: String): Provider? {
+        return athenaKtorHealthClient.getProvider(practiceId, providerId)
+    }
+
     override fun getAccessToken(): String {
         val url = "https://developer.athenahealth.com/io-docs/getoauth2accesstoken"
         val apiId = "784"

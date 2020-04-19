@@ -26,7 +26,11 @@ interface PmsClient {
 
     fun getPatientAppointmentsInfo(accessToken: String, patientid: String, practiceid: String) : AppointmentsInfo
 
+    fun getProviderInfo(practiceId: String, providerId: String) : Provider?
+
     fun getAccessToken(): String
+
+
 
 
 }

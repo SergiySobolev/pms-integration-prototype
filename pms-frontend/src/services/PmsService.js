@@ -21,5 +21,9 @@ export default {
     getProviders(practiceId) {
         console.log(`Fetching providers for practice #${practiceId}`);
         return Service.get(`${practice}/${practiceId}/${providers}`);
+    },
+    getProvider(practiceId, providerId) {
+        console.log(`Fetching provider #${providerId} info for practice #${practiceId}`);
+        return Service.get(`${practice}/${practiceId}/${providers}/${providerId}`);
     }
 }

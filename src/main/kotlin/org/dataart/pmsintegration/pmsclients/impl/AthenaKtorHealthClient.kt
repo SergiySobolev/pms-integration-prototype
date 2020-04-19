@@ -8,6 +8,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.http.URLProtocol
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import mu.KLogging
@@ -15,6 +16,7 @@ import org.apache.http.HttpHeaders.AUTHORIZATION
 import org.dataart.pmsintegration.AppConfig
 import org.dataart.pmsintegration.cache.AthenaHealthCache
 import org.dataart.pmsintegration.data.DepartmentsInfo
+import org.dataart.pmsintegration.data.Provider
 import org.dataart.pmsintegration.data.ProvidersInfo
 
 //TODO implement PmsFacade interface in fully manner and replace AthenaHealthClient
@@ -76,6 +78,22 @@ class AthenaKtorHealthClient {
         }
         logger.debug ("KTOR client: Providers info for practice #$practiceId retrieved")
         return providersInfo
+    }
+
+    @ImplicitReflectionSerializer
+    fun getProvider(practiceId: String, providerId: String): Provider? {
+        logger.info ("KTOR client: retrieving provider ${providerId} for practice #$practiceId")
+        val path = "/$practiceId/providers/$providerId"
+        val providers = runBlocking {
+            client.get<List<Provider>> {
+                url {
+                    encodedPath = path
+                }
+                header(AUTHORIZATION, "Bearer ${AthenaHealthCache.getAccessToken()}")
+            }
+        }
+        logger.debug ("KTOR client: Providers #$providerId info for practice #$practiceId retrieved")
+        return if (providers.isNotEmpty()) providers[0] else null
     }
 
     companion object : KLogging()

@@ -35,6 +35,8 @@ data class PracticeInfo(
 data class Provider(
     val lastname: String? = EMPTY,
     val firstname: String? = EMPTY,
+    val specialty: String? = EMPTY,
+    val homedepartment: String? = EMPTY,
     val ansinamecode: String? = EMPTY,
     val providerid: Int,
     val acceptingnewpatients: Boolean? = true,

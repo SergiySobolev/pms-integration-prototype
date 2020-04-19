@@ -60,4 +60,8 @@ class AthenaHealthFacade(private val pmsClient: PmsClient) : PmsFacade {
     override fun getPatientAppointmentsInfo(patientid: String, practiceid: String): AppointmentsInfo {
         return pmsClient.getPatientAppointmentsInfo(AthenaHealthCache.getAccessToken(), patientid, practiceid)
     }
+
+    override fun getProviderInfo(practiceId: String, providerId: String): Provider? {
+        return pmsClient.getProviderInfo(practiceId, providerId)
+    }
 }
