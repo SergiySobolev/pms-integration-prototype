@@ -1,7 +1,7 @@
 <template>
-    <div id="providerdetails" class="container border border-primary">
+    <div id="providerdetails" class="container">
 
-        <div id="providerattributes" class="row">
+        <div id="providerattributes" class="row border border-primary">
 
             <div class="col">
                 <img src="https://www.meme-arsenal.com/memes/e71c81648ee8ac95f46b5f6f0d33092d.jpg" alt="Provider"/>
@@ -53,23 +53,33 @@
 
             </div>
         </div>
+
+        <ProviderAppointmentTypes
+                :practiceid="practiceid"
+                :providerid="providerid"
+                :departmentid="departmentid"
+        />
+
     </div>
 </template>
 
 <script>
-    import {ServicesFactory} from "../../services/ServicesFactory";
+    import {ServicesFactory} from "../../services/ServicesFactory"
+    import ProviderAppointmentTypes from "./ProviderAppointmentTypes";
 
     const pmsService = ServicesFactory.get("pms");
 
     export default {
         name: "ProviderDetails",
+        components: {ProviderAppointmentTypes},
         props: {
             providerid: String,
-            practiceid: String
+            practiceid: String,
         },
         data() {
             return {
-                provider: null,
+                departmentid: 1,
+                provider: null
             };
         },
         created: function () {
