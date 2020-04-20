@@ -34,6 +34,8 @@ resources:
       items: ["http","http-server"]
     metadata:
       items:
+        - key: google-logging-enabled
+          value: "true"
         - key: gce-container-declaration
           value: |
             {{ imports[properties['containerManifest']]|indent(12) }}
@@ -55,3 +57,5 @@ resources:
         scopes:
         - https://www.googleapis.com/auth/logging.write
         - https://www.googleapis.com/auth/monitoring.write
+    scheduling:
+        preemptible: true

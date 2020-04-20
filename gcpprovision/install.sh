@@ -8,5 +8,6 @@ gcloud config set project $PROJECT_ID
 gcloud services enable compute
 gcloud services enable deploymentmanager
 gcloud services enable containerregistry.googleapis.com
+gcloud services enable stackdriver.googleapis.com
 
 gcloud deployment-manager deployments create pmsint --config dm/app.yaml
