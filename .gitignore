@@ -18,3 +18,4 @@ lib
 *.log
 *.sw?
 *account*
+gcpprovision/logging-account-key-file.json
