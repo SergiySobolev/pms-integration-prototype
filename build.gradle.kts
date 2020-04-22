@@ -2,6 +2,7 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 import com.bmuschko.gradle.docker.tasks.image.DockerTagImage
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 val ktor_version = "1.3.0"
 val junit_version = "5.6.0"
@@ -13,6 +14,8 @@ val slf4j_version = "1.7.25"
 val logback_version = "1.2.3"
 val kotlin_logging_version = "1.7.9"
 val hoplite_version = "1.2.0"
+val google_logging_version = "1.101.1"
+val google_logging_logback_version = "0.116.0-alpha"
 
 
 plugins {
@@ -54,6 +57,9 @@ dependencies {
 
     implementation("org.slf4j:slf4j-api:$slf4j_version")
     implementation("io.github.microutils:kotlin-logging:$kotlin_logging_version")
+    implementation("com.google.cloud:google-cloud-logging:$google_logging_version")
+    implementation("com.google.cloud:google-cloud-logging-logback:$google_logging_logback_version")
+
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -62,6 +68,10 @@ tasks.withType<KotlinCompile>().configureEach {
 
 application {
     mainClassName = "org.dataart.pmsintegration.AppKt"
+}
+
+tasks.withType<ShadowJar> {
+    mergeServiceFiles()
 }
 
 tasks {

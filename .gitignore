@@ -17,3 +17,4 @@ lib
 *.png
 *.log
 *.sw?
+*account*
