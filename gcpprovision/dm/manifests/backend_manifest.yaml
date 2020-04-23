@@ -7,9 +7,6 @@ spec:
     - name: pms-integration-backend
       image: gcr.io/da-pms-integration-prototype/pms-integration-backend:1.0
       imagePullPolicy: Always
-      env:
-        - name: --log-driver
-          value: "gcplogs"
       ports:
         - containerPort: 10000
           hostPort: 10000
