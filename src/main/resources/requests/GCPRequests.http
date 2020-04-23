@@ -1,16 +1,16 @@
-GET http://34.76.143.68:10000/pmsint/practice/195900
+GET http://35.205.222.180:10000/pmsint/practice/195900
 Accept: application/json
 
 ###
-GET http://localhost:10000/pmsint/practice
+GET http://35.205.222.180:10000/pmsint/practice
 Accept: application/json
 
 ###
-GET http://localhost:10000/pmsint/practice/195900/departments
+GET http://35.205.222.180:10000/pmsint/practice/195900/departments
 Accept: application/json
 
 ###
-GET http://localhost:10000/pmsint/practice/195900/providers
+GET http://35.205.222.180:10000/pmsint/practice/195900/providers
 Accept: application/json
 
 ###
