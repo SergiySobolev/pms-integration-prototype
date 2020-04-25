@@ -14,6 +14,8 @@ import io.ktor.server.netty.Netty
 import kotlinx.serialization.json.Json
 import org.dataart.pmsintegration.facade.PmsFacade
 import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
+import org.dataart.pmsintegration.gcpservices.datastore.PmsDatastoreService
+import org.dataart.pmsintegration.gcpservices.datastore.impl.PmsDatastoreServiceImpl
 import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
 
@@ -30,7 +32,8 @@ fun main() {
 fun Application.module() {
 
     val pmsClient: PmsClient = AthenaHealthClient()
-    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsClient)
+    val pmsDatastoreService: PmsDatastoreService = PmsDatastoreServiceImpl()
+    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsClient, pmsDatastoreService)
 
     routing(pmsFacade)
 

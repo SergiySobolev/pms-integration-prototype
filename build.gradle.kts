@@ -16,7 +16,7 @@ val kotlin_logging_version = "1.7.9"
 val hoplite_version = "1.2.0"
 val google_logging_version = "1.101.1"
 val google_logging_logback_version = "0.116.0-alpha"
-
+val google_cloud_datastore_version = "1.102.4"
 
 plugins {
     kotlin("jvm") version "1.3.41"
@@ -59,6 +59,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:$kotlin_logging_version")
     implementation("com.google.cloud:google-cloud-logging:$google_logging_version")
     implementation("com.google.cloud:google-cloud-logging-logback:$google_logging_logback_version")
+    implementation("com.google.cloud:google-cloud-datastore:$google_cloud_datastore_version")
 
 }
 
