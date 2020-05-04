@@ -15,6 +15,7 @@ resources:
   properties:
     zone: {{ properties['zone'] }}
     machineType: {{ ZonalComputeUrl(env['project'], properties['zone'], 'machineTypes', 'n1-standard-1') }}
+    labels: {"env":"stage", "role":"backend"}
     tags:
       items: ["http","http-server"]
     metadata:
