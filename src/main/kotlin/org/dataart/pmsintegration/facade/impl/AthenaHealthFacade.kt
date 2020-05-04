@@ -1,29 +1,40 @@
 package org.dataart.pmsintegration.facade.impl
 
-import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.cache.AthenaHealthCache
 import org.dataart.pmsintegration.data.*
 import org.dataart.pmsintegration.facade.PmsFacade
+import org.dataart.pmsintegration.gcpservices.datastore.PmsDatastoreService
+import org.dataart.pmsintegration.pmsclients.PmsClient
 
-class AthenaHealthFacade(
-    val athenaHealthCache: AthenaHealthCache,
-    val pmsClient: PmsClient
-) : PmsFacade {
+class AthenaHealthFacade(private val pmsClient: PmsClient,
+                         private val pmsDatastoreService: PmsDatastoreService) : PmsFacade {
 
     override fun getAvailablePractices(): PracticesInfo {
-        return pmsClient.getAvailablePractices(athenaHealthCache.getAccessToken())
+        val availablePractices = pmsClient.getAvailablePractices(AthenaHealthCache.getAccessToken())
+        setInactivePractices(availablePractices)
+        pmsDatastoreService.savePracticeInfo(availablePractices)
+        return availablePractices
+    }
+
+    private fun setInactivePractices(availablePractices: PracticesInfo) {
+        //its information from athenahealth documentation. Active practice only one.
+        for (practice in availablePractices.practiceinfo) {
+            if (practice.practiceid != "195900") {
+                practice.isactive = false
+            }
+        }
     }
 
     override fun getAvailablePractice(practiceId: String): PracticeInfo? {
-        return pmsClient.getAvailablePractice(athenaHealthCache.getAccessToken(), practiceId)
+        return pmsClient.getAvailablePractice(AthenaHealthCache.getAccessToken(), practiceId)
     }
 
-    override fun getPracticeDepartments(practiceId: String) {
-        return pmsClient.getPracticeDepartments(athenaHealthCache.getAccessToken(), practiceId)
+    override fun getPracticeDepartments(practiceId: String): DepartmentsInfo {
+        return pmsClient.getPracticeDepartments(practiceId)
     }
 
     override fun getProvidersInfo(practiceId: String, limit: Int): ProvidersInfo {
-        return pmsClient.getProvidersInfo(athenaHealthCache.getAccessToken(), practiceId, limit)
+        return pmsClient.getProvidersInfo(AthenaHealthCache.getAccessToken(), practiceId, limit)
     }
 
     override fun getAppointmentsInfo(
@@ -33,7 +44,7 @@ class AthenaHealthFacade(
         departmentId: Int
     ): AppointmentsInfo {
         return pmsClient.getAppointmentsInfo(
-            athenaHealthCache.getAccessToken(),
+            AthenaHealthCache.getAccessToken(),
             practiceId,
             providerId,
             appointmentTypeId,
@@ -42,14 +53,18 @@ class AthenaHealthFacade(
     }
 
     override fun registerPatient(patientRegistrationData: PatientRegistrationData): Patient {
-        return pmsClient.registerPatient(athenaHealthCache.getAccessToken(), patientRegistrationData)
+        return pmsClient.registerPatient(AthenaHealthCache.getAccessToken(), patientRegistrationData)
     }
 
     override fun bookAppointment(req: AppointmentBookingRequest) {
-        pmsClient.bookAppointment(athenaHealthCache.getAccessToken(), req)
+        pmsClient.bookAppointment(AthenaHealthCache.getAccessToken(), req)
     }
 
     override fun getPatientAppointmentsInfo(patientid: String, practiceid: String): AppointmentsInfo {
-        return pmsClient.getPatientAppointmentsInfo(athenaHealthCache.getAccessToken(), patientid, practiceid)
+        return pmsClient.getPatientAppointmentsInfo(AthenaHealthCache.getAccessToken(), patientid, practiceid)
+    }
+
+    override fun getProviderInfo(practiceId: String, providerId: String): Provider? {
+        return pmsClient.getProviderInfo(practiceId, providerId)
     }
 }

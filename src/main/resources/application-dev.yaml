@@ -3,4 +3,4 @@ server:
 
 pms:
   athenahealth:
-      url: https://api.athenahealth.com/preview1/
+    url: api.athenahealth.com/preview1/

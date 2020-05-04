@@ -12,6 +12,8 @@ import org.dataart.pmsintegration.pmsclients.PmsClient
 
 class AthenaHealthClient : PmsClient {
 
+    private val athenaKtorHealthClient = AthenaKtorHealthClient()
+
     private val json = Json(
         JsonConfiguration.Stable.copy(
             strictMode = false
@@ -39,23 +41,12 @@ class AthenaHealthClient : PmsClient {
         return practicesInfo.practiceinfo.find { it.practiceid == practiceId }
     }
 
-    override fun getPracticeDepartments(accessToken: String, practiceId: String) {
-        TODO("Not yet implemented")
+    override fun getPracticeDepartments(practiceId: String) : DepartmentsInfo{
+        return athenaKtorHealthClient.getPracticeDepartments(practiceId)
     }
 
     override fun getProvidersInfo(accessToken: String, practiceId: String, limit: Int ): ProvidersInfo {
-        val url = "https://api.athenahealth.com/preview1/$practiceId/providers?limit=$limit"
-        val authorizationHeader = "Bearer $accessToken"
-
-        logger.info("Getting providers for practice #$practiceId")
-        val (_, response, _) = Fuel.get(url)
-            .header(Headers.AUTHORIZATION, authorizationHeader)
-            .response()
-
-        return json.parse(
-            ProvidersInfo.serializer(),
-            String(response.data)
-        )
+       return athenaKtorHealthClient.getProvidersInfo(practiceId, limit)
     }
 
     override fun getAppointmentsInfo(
@@ -148,6 +139,11 @@ class AthenaHealthClient : PmsClient {
 
         return appointmentsInfo
 
+    }
+
+    @ImplicitReflectionSerializer
+    override fun getProviderInfo(practiceId: String, providerId: String): Provider? {
+        return athenaKtorHealthClient.getProvider(practiceId, providerId)
     }
 
     override fun getAccessToken(): String {

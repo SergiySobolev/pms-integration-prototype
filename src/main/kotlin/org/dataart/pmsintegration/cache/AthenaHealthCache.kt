@@ -8,27 +8,31 @@ import java.time.Instant
 //todo rewrite with using external thread-safe storage
 class AthenaHealthCache {
 
-    private var accessToken: String = ""
-    private var accessTokenRetrieveTime = Instant.now()
-    private val athenaHealthClient = AthenaHealthClient()
-    private val TOKEN_REFRESHMENT_RATE_MINS = 40
+    companion object : KLogging(){
 
-    private fun isAccessTokenValid(): Boolean {
-        val now = Instant.now()
-        return (Duration.between(accessTokenRetrieveTime, now).toMinutes() < TOKEN_REFRESHMENT_RATE_MINS) && accessToken.isNotBlank()
-    }
+        private var accessToken: String = ""
+        private var accessTokenRetrieveTime = Instant.now()
+        private val athenaHealthClient = AthenaHealthClient()
+        private val TOKEN_REFRESHMENT_RATE_MINS = 40
 
-    fun getAccessToken(): String {
-        if(!isAccessTokenValid()) {
-            logger.warn("Access token is invalid, need to refresh ")
+        private fun isAccessTokenValid(): Boolean {
             val now = Instant.now()
-            accessToken = athenaHealthClient.getAccessToken()
-            accessTokenRetrieveTime = now
-            logger.info("Access token is updated, update time is $accessTokenRetrieveTime ")
+            return (Duration.between(accessTokenRetrieveTime, now)
+                .toMinutes() < TOKEN_REFRESHMENT_RATE_MINS) && accessToken.isNotBlank()
         }
-        return accessToken
-    }
 
-    companion object : KLogging()
+        fun getAccessToken(): String {
+            if (!isAccessTokenValid()) {
+                logger.warn("Access token is invalid, need to refresh ")
+                val now = Instant.now()
+                accessToken = athenaHealthClient.getAccessToken()
+                accessTokenRetrieveTime = now
+                logger.info("Access token is updated, update time is $accessTokenRetrieveTime ")
+            }
+            return accessToken
+        }
+
+
+    }
 
 }

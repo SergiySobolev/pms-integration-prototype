@@ -10,6 +10,9 @@ ENV pmsint_env=${PMSINT_ENV}
 RUN mkdir app
 
 ADD build/libs/pms-integration-prototype-all.jar app/pms-integration-prototype-all.jar
+ADD gcpprovision/logging-account-key-file.json app/logging-account-key-file.json
+
+ENV GOOGLE_APPLICATION_CREDENTIALS=$HOME/app/logging-account-key-file.json
 
 WORKDIR .
 

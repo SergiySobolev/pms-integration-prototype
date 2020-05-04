@@ -1,0 +1,26 @@
+imports:
+  - path: manifests/backend_manifest.yaml
+    name: backend_manifest
+  - path: templates/cnt_vm_1.jinja
+    name: backend-vm-1.jinja
+  - path: templates/bq-logs-dataset.jinja
+    name: bq-logs-dataset.jinja
+
+resources:
+  - name: backend
+    type: backend-vm-1.jinja
+    properties:
+      zone: europe-west1-b
+      containerImage: family/cos-stable
+      containerManifest: backend_manifest
+
+  - name: logs-dataset
+    type: bq-logs-dataset.jinja
+
+  - name: allow-http-fw
+    type: compute.v1.firewall
+    properties:
+      allowed:
+        - IPProtocol: TCP
+          ports: [10000]
+      sourceRanges: [ 0.0.0.0/0 ]

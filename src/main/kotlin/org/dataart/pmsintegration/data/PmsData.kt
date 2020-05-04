@@ -2,6 +2,8 @@ package org.dataart.pmsintegration.data
 
 import kotlinx.serialization.Serializable
 
+const val EMPTY = ""
+
 @Serializable
 data class AuthResult(
     val access_token: String,
@@ -25,21 +27,25 @@ data class PracticeInfo(
     val practiceid: String,
     val hascommunicator: Boolean,
     val hascollector: Boolean,
-    val golivedate: String
+    val golivedate: String,
+    var isactive: Boolean? = true
 )
 
 @Serializable
 data class Provider(
-    val firstname: String,
-    val acceptingnewpatients: Boolean? = true,
-    val schedulingname: String,
-    val providertypeid: String? = "",
-    val billable: Boolean,
-    val lastname: String,
+    val lastname: String? = EMPTY,
+    val firstname: String? = EMPTY,
+    val specialty: String? = EMPTY,
+    val homedepartment: String? = EMPTY,
+    val ansinamecode: String? = EMPTY,
     val providerid: Int,
-    val ansispecialtycode: String? = "",
+    val acceptingnewpatients: Boolean? = true,
+    val schedulingname: String? = EMPTY,
+    val providertypeid: String? = EMPTY,
+    val billable: Boolean,
+    val ansispecialtycode: String? = EMPTY,
     val hideinportal: Boolean? = false,
-    val entitytype: String? = ""
+    val entitytype: String? = EMPTY
 )
 
 @Serializable
@@ -68,6 +74,7 @@ data class AppointmentBookingRequest(
     val appointmentid: String,
     val appointmenttypeid: String
 )
+
 @Serializable
 data class BookedAppointment(
     val patientid: String,
@@ -130,3 +137,21 @@ data class Patient(
         )
 
 }
+
+@Serializable
+data class Department(
+    val departmentid: String,
+    val name: String,
+    val zip: String,
+    val address: String? = EMPTY,
+    val phone: String? = EMPTY,
+    val state: String,
+    val patientdepartmentname: String,
+    val creditcardtypes: Array<String>? = emptyArray()
+)
+
+@Serializable
+data class DepartmentsInfo(
+    val totalcount: Int,
+    val departments: Array<Department>
+)

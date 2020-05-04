@@ -6,9 +6,19 @@
         </encoder>
     </appender>
 
+    <appender name="CLOUD" class="com.google.cloud.logging.logback.LoggingAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <log>application.log</log>
+        <flushLevel>WARN</flushLevel>
+    </appender>
+
     <root level="debug">
+        <appender-ref ref="CLOUD" />
         <appender-ref ref="STDOUT" />
     </root>
 
     <logger name="io.netty" level="error"/>
+    <logger name="io.grpc.netty" level="error"/>
 </configuration>

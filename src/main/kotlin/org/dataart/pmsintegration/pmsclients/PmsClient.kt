@@ -8,9 +8,9 @@ interface PmsClient {
 
     fun getAvailablePractice(accessToken: String, practiceId: String): PracticeInfo?
 
-    fun getPracticeDepartments(accessToken: String, practiceId: String)
+    fun getPracticeDepartments(practiceId: String): DepartmentsInfo
 
-    fun getProvidersInfo(accessToken: String, practiceId: String, limit: Int = 50): ProvidersInfo
+    fun getProvidersInfo(accessToken: String, practiceId: String, limit: Int = -1): ProvidersInfo
 
     fun getAppointmentsInfo(
         accessToken: String,
@@ -26,7 +26,11 @@ interface PmsClient {
 
     fun getPatientAppointmentsInfo(accessToken: String, patientid: String, practiceid: String) : AppointmentsInfo
 
+    fun getProviderInfo(practiceId: String, providerId: String) : Provider?
+
     fun getAccessToken(): String
+
+
 
 
 }
