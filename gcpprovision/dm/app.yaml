@@ -5,6 +5,10 @@ imports:
     name: backend-vm-1.jinja
   - path: templates/bq-logs-dataset.jinja
     name: bq-logs-dataset.jinja
+  - path: templates/service-account.jinja
+    name: service-account.jinja
+  - path: templates/custom_role.jinja
+    name: custom_role.jinja
 
 resources:
   - name: backend
@@ -24,3 +28,20 @@ resources:
         - IPProtocol: TCP
           ports: [10000]
       sourceRanges: [ 0.0.0.0/0 ]
+
+  - name: sa-storage-operator
+    type: service-account.jinja
+    properties:
+      name: storage-operator
+
+  - name: storage-operator-role
+    type: custom_role.jinja
+    properties:
+      roleId: StorageOperator
+      title: Storage Operator
+      description: Storage Operator
+      stage: GA
+      includedPermissions:
+        - storage.objects.create
+        - storage.objects.get
+        - storage.objects.list
