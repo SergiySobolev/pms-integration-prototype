@@ -12,6 +12,7 @@ gcloud services enable compute
 gcloud services enable deploymentmanager
 gcloud services enable containerregistry.googleapis.com
 gcloud services enable stackdriver.googleapis.com
+gcloud services enable iam.googleapis.com
 
 gcloud iam service-accounts create $SERVICE_ACCOUNT_NAME
 gcloud projects add-iam-policy-binding $PROJECT_ID --member "serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" --role "roles/owner"
