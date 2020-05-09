@@ -1,0 +1,17 @@
+{% set ID = properties['name'] %}
+
+
+resources:
+- name: {{ ID }}-bucket
+  type: storage.v1.bucket
+  properties:
+    location: {{ properties['region'] }}
+    storageClass: {{ properties['storageClass'] }}
+    versioning:
+      enabled: true
+  accessControl:
+      gcpIamPolicy:
+        bindings:
+        - role: {{ properties['iamrole']}}
+          members:
+          - "serviceAccount:{{ properties['sa'] }}"

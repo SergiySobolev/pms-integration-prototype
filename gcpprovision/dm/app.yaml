@@ -9,15 +9,10 @@ imports:
     name: service-account.jinja
   - path: templates/custom_role.jinja
     name: custom_role.jinja
+  - path: templates/pmsint_bucket.jinja
+    name: pmsint_bucket.jinja
 
 resources:
-  - name: backend
-    type: backend-vm-1.jinja
-    properties:
-      zone: europe-west1-b
-      containerImage: family/cos-stable
-      containerManifest: backend_manifest
-
   - name: logs-dataset
     type: bq-logs-dataset.jinja
 
@@ -45,3 +40,19 @@ resources:
         - storage.objects.create
         - storage.objects.get
         - storage.objects.list
+
+  - name: backend
+    type: backend-vm-1.jinja
+    properties:
+      zone: europe-west1-b
+      containerManifest: backend_manifest
+      sa: storage-operator@da-pms-integration-prototype.iam.gserviceaccount.com
+
+  - name: practiceinfo_bucket
+    type: pmsint_bucket.jinja
+    properties:
+      name: practiceinfo
+      region: US
+      storageClass: STANDARD
+      iamrole: projects/da-pms-integration-prototype/roles/StorageOperator
+      sa: storage-operator@da-pms-integration-prototype.iam.gserviceaccount.com
