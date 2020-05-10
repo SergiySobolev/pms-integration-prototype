@@ -13,4 +13,12 @@ _java -jar "${SYSTEM_PROPERTY_1}" "${SYSTEM_PROPERTY_2}" build/libs/pms-integrat
 
 Example: _java -jar "-Denv=gcp" "-Dconfig.override.server.port=7000" build/libs/pms-integration-prototype-all.jar_ 
 
+**Deployment**
+
+To deploy and run solution on Google Cloud Platform, you need:
+1. Create project on GCP
+2. Update gcpprovision/install.sh with your GCP project name
+3. Install Google Cloud SDK https://cloud.google.com/sdk/install
+4. Run install.sh 
+
 
