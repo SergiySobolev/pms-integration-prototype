@@ -18,4 +18,6 @@ gcloud iam service-accounts create $SERVICE_ACCOUNT_NAME
 gcloud projects add-iam-policy-binding $PROJECT_ID --member "serviceAccount:$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com" --role "roles/owner"
 gcloud iam service-accounts keys create $KEY_FILE_NAME.json --iam-account $SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com
 
-gcloud deployment-manager deployments create pmsint --config dm/app.yaml
+gcloud deployment-manager deployments create pmsint --config dm/iam.yaml
+gcloud deployment-manager deployments update pmsint --config dm/storage.yaml
+gcloud deployment-manager deployments update pmsint --config dm/app.yaml
