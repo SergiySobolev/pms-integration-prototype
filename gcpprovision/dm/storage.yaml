@@ -24,6 +24,8 @@ resources:
         - storage.objects.get
         - storage.objects.list
         - storage.objects.update
+        - storage.objects.delete
+
   - name: practiceinfo_bucket
     type: pmsint_bucket.jinja
     properties:

@@ -4,15 +4,18 @@ import org.dataart.pmsintegration.cache.AthenaHealthCache
 import org.dataart.pmsintegration.data.*
 import org.dataart.pmsintegration.facade.PmsFacade
 import org.dataart.pmsintegration.gcpservices.datastore.PmsDatastoreService
+import org.dataart.pmsintegration.gcpservices.storage.PmsStorageService
 import org.dataart.pmsintegration.pmsclients.PmsClient
 
 class AthenaHealthFacade(private val pmsClient: PmsClient,
-                         private val pmsDatastoreService: PmsDatastoreService) : PmsFacade {
+                         private val pmsDatastoreService: PmsDatastoreService,
+                         private val pmsStorageService: PmsStorageService) : PmsFacade {
 
     override fun getAvailablePractices(): PracticesInfo {
         val availablePractices = pmsClient.getAvailablePractices(AthenaHealthCache.getAccessToken())
         setInactivePractices(availablePractices)
         pmsDatastoreService.savePracticeInfo(availablePractices)
+        pmsStorageService.uploadPracticeInfo(availablePractices)
         return availablePractices
     }
 

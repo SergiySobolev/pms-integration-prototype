@@ -16,6 +16,8 @@ import org.dataart.pmsintegration.facade.PmsFacade
 import org.dataart.pmsintegration.facade.impl.AthenaHealthFacade
 import org.dataart.pmsintegration.gcpservices.datastore.PmsDatastoreService
 import org.dataart.pmsintegration.gcpservices.datastore.impl.PmsDatastoreServiceImpl
+import org.dataart.pmsintegration.gcpservices.storage.PmsStorageService
+import org.dataart.pmsintegration.gcpservices.storage.impl.PmsStorageServiceImpl
 import org.dataart.pmsintegration.pmsclients.PmsClient
 import org.dataart.pmsintegration.pmsclients.impl.AthenaHealthClient
 
@@ -33,7 +35,8 @@ fun Application.module() {
 
     val pmsClient: PmsClient = AthenaHealthClient()
     val pmsDatastoreService: PmsDatastoreService = PmsDatastoreServiceImpl()
-    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsClient, pmsDatastoreService)
+    val pmsStorageService: PmsStorageService = PmsStorageServiceImpl()
+    val pmsFacade: PmsFacade = AthenaHealthFacade(pmsClient, pmsDatastoreService, pmsStorageService)
 
     routing(pmsFacade)
 

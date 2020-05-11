@@ -1,6 +1,5 @@
 imports:
   - path: manifests/backend_manifest.yaml
-    name: backend_manifest
   - path: templates/cnt_vm_1.jinja
     name: backend-vm-1.jinja
   - path: templates/bq-logs-dataset.jinja
@@ -30,6 +29,7 @@ resources:
         - storage.objects.get
         - storage.objects.list
         - storage.objects.update
+        - storage.objects.delete
 
   - name: logs-dataset
     type: bq-logs-dataset.jinja
@@ -42,11 +42,20 @@ resources:
           ports: [10000]
       sourceRanges: [ 0.0.0.0/0 ]
 
+  - name: practiceinfo_bucket
+    type: pmsint_bucket.jinja
+    properties:
+      name: practiceinfo
+      region: US
+      storageClass: STANDARD
+      iamrole: projects/da-pms-integration-prototype/roles/StorageOperator
+      sa: storage-operator@da-pms-integration-prototype.iam.gserviceaccount.com
+
   - name: backend
     type: backend-vm-1.jinja
     properties:
       zone: europe-west1-b
-      containerManifest: backend_manifest
+      containerManifest: manifests/backend_manifest.yaml
       sa: storage-operator@da-pms-integration-prototype.iam.gserviceaccount.com
 
 

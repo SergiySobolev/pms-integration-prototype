@@ -1,6 +1,9 @@
 server:
   port: 11000
 
+gcp:
+  practiceinfobucketname: practiceinfo-bucket
+
 pms:
   athenahealth:
     url: api.athenahealth.com/preview1/

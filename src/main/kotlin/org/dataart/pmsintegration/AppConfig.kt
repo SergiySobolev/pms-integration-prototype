@@ -6,7 +6,7 @@ import com.sksamuel.hoplite.SystemPropertiesPropertySource
 
 
 
-data class AppConfig(val server: Server, val pms: Pms) {
+data class AppConfig(val server: Server, val gcp: Gcp, val pms: Pms) {
 
     companion object {
         private val cfg: AppConfig = loadConfig()
@@ -18,6 +18,8 @@ data class AppConfig(val server: Server, val pms: Pms) {
 }
 
 data class Server(val port: Int)
+
+data class Gcp(val practiceinfobucketname: String)
 
 data class AthenaHealth(val url: String)
 

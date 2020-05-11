@@ -12,10 +12,10 @@ class PmsDatastoreServiceImpl : PmsDatastoreService {
 
     private val datastore = ClientFactory.get()
 
-    override fun savePracticeInfo(practicesinfo: PracticesInfo) {
+    override fun savePracticeInfo(practicesInfo: PracticesInfo) {
 
         val keyFactory: KeyFactory = datastore.newKeyFactory().setKind("Practice")
-        for (practice in practicesinfo.practiceinfo) {
+        for (practice in practicesInfo.practiceinfo) {
             val key: Key = keyFactory.newKey(practice.practiceid)
             val entity: Entity = Entity.newBuilder(key)
                 .set("name", practice.name)
