@@ -1,0 +1,13 @@
+imports:
+  - path: templates/project.py
+    name: project.py
+resources:
+  - name: da-pmsint-monitoring
+    type: project.py
+    properties:
+      billingAccountId: billingAccounts/01AF5E-BD8581-E49E87
+      activateApis:
+        - compute.googleapis.com
+        - api-compute.googleapis.com
+        - deploymentmanager.googleapis.com
+      serviceAccounts: []
